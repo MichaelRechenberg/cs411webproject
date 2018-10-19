@@ -2,16 +2,9 @@ import os
 from flask import Flask, g
 
 
-from cs411project.database.database_connection import MySQLConnection
-from cs411project.views.home_view import HomeView
-from cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
-
-
-# TODO: remove the setting of environment variables here and put them in passenger_wsgi.py instead for cPanel
-os.environ['CS411_MYSQL_USER'] = 'demouser'
-os.environ['CS411_MYSQL_PASSWORD'] = 'demopassword'
-os.environ['CS411_MYSQL_DATABASE'] = 'demodb'
-
+from .cs411project.database.database_connection import MySQLConnection
+from .cs411project.views.home_view import HomeView
+from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
