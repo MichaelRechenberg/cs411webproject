@@ -49,12 +49,6 @@ echo "Installing files from ${GIT_HOME_DIR}/requirements.txt"
 pip install -r ${GIT_HOME_DIR}/requirements.txt
 check_errs $? "Failed to install packages from requirements.txt"
 
-# Run setup.py (via pip) to build the cs411project python package (so we can do 'import cs411project.foo')
-echo "Running setup.py from git repo"
-pip install ${GIT_HOME_DIR}
-check_errs $? "Failed to run setup.py from git repo"
-
-
 # Run app.py and check for non-zero exit status to make sure the installation succeeded
 python ${GIT_HOME_DIR}/app.py
 check_errs $? "Smoke test with app.py failed"

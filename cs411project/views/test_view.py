@@ -1,6 +1,8 @@
 from flask import g
 from flask.views import MethodView
 
+from ..database.entity_serializer import EntitySerializer
+
 import json
 
 # A simple test View to make sure the pipes fit with cPanel
@@ -17,16 +19,20 @@ class TestAPIView(MethodView):
         # But we are responsible for closing the cursor ourselves in this function
         cursor = connection.cursor()
 
-        # TODO: change this to SELECT from a table in cPanel for example
-        query = 'SELECT * FROM TestDB'
+        query = 'SELECT * FROM Users'
 
         cursor.execute(query)
 
 
-        # force loading of results before closing the cursor
-        loaded_results = list(cursor)
+        # We can get the column names for each resulting SQL query from the cursor,
+        #   then use those as keys in Python dictionaries
+        # Or, we could use our own list of names for each column of a tuple returned by the DB
+        field_names = [x[0] for x in cursor.description]
+
+        result_as_dicts = EntitySerializer.db_entities_to_python(cursor, field_names)
 
         cursor.close()
 
-        return json.dumps(loaded_results)
+        # We have the result set returned as JSON
+        return json.dumps(result_as_dicts)
 
