@@ -7,7 +7,7 @@
 #
 # Assumes the following environment variables have been filled out before calling this script
 #
-# GIT_HOME_DIR -> The absolute path to where the git repository was cloned to on this machine
+# GIT_HOME_DIR -> The absolute path to where the root folder for the git repository
 # CPANEL_VENV_ACTIVATE -> The absolute path to the 'activate' binary for the virtualenv created
 #                               within the cPanel interface during "Setup Python App"
 #
@@ -56,3 +56,5 @@ check_errs $? "Failed to run setup.py from git repo"
 # Run app.py and check for non-zero exit status to make sure the installation succeeded
 python ${GIT_HOME_DIR}/app.py
 check_errs $? "Smoke test with app.py failed"
+echo ""
+echo "Installation succeeded"

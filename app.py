@@ -18,11 +18,12 @@ app.add_url_rule('/project', view_func=HomeView.as_view('home'))
 
 #
 # The Flask app will be imported by passenger_wsgi.py in cPanel
-#   to hook up Flask to cPanel's own web server
+#   to hook up Flask to cPanel's own web server via the variable 'application'
 #
 # If you're doing local development, you can uncomment the
 #   the below line to run the Flask server locally
 #
-app.run(port=8080)
+# app.run(port=8080)
+application = app
 
 
