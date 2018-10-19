@@ -9,9 +9,10 @@ class EntitySerializer:
                                 This list must have the same length as the number of columns returned by the DB query
 
 
-            Returns a dictionary of each entity, with keys defined in field_names
+            Returns a generator where each element is a Python dict such that the i'th key of field_names has the value of
+                the i'th column in the DB entity
         """
-        return [cls._db_entity_to_dict(entity, field_names) for entity in entities]
+        return (cls._db_entity_to_dict(entity, field_names) for entity in entities)
 
     @classmethod
     def _db_entity_to_dict(cls, db_entity, field_names):

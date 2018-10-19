@@ -4,7 +4,7 @@ from flask import Flask, g
 
 from cs411project.database.database_connection import MySQLConnection
 from cs411project.views.home_view import HomeView
-from cs411project.views.test_view import TestAPIView
+from cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
 
 
 # TODO: remove the setting of environment variables here and put them in passenger_wsgi.py instead for cPanel
@@ -56,6 +56,7 @@ def after_request_cleanup(error):
 
 # Apply routing: map URLs to the View class to handle the logic of that route
 app.add_url_rule('/project/test', view_func=TestAPIView.as_view('test'))
+app.add_url_rule('/project/test/<netID>', view_func=TestPreparedStatementAPIView.as_view('testPrepared'))
 app.add_url_rule('/project', view_func=HomeView.as_view('home'))
 
 

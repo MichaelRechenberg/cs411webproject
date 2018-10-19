@@ -30,16 +30,18 @@ class MySQLConnection:
 
 
     def get_connection(self):
-        """Return a new connection to the database as defined by self.dbconfig
+        """Return a new connection to the database as defined by self.dbconfig,
+            or the current one if a connection is already established
         """
 
         if self.active_connection is None:
-            self.active_connection = mysql.connector.connect(**self.dbconfig)
+            # The use_pure=True is so we can use prepared statements -> https://stackoverflow.com/questions/50535192/i-get-notimplementederror-when-trying-to-do-a-prepared-statement-with-mysql-pyth
+            self.active_connection = mysql.connector.connect(use_pure=True, **self.dbconfig)
 
         return self.active_connection
 
     def close(self):
-        """Close the connection to the database (if the connection was nevery actually made with
+        """Close the connection to the database (if the connection was never actually made with
             the MySQL database, then this function can be safely called as a no-op)
         """
         if self.active_connection is not None:
