@@ -49,8 +49,5 @@ echo "Installing files from ${GIT_HOME_DIR}/requirements.txt"
 pip install -r ${GIT_HOME_DIR}/requirements.txt
 check_errs $? "Failed to install packages from requirements.txt"
 
-# Run app.py and check for non-zero exit status to make sure the installation succeeded
-python ${GIT_HOME_DIR}/app.py
-check_errs $? "Smoke test with app.py failed"
-echo ""
-echo "Installation succeeded"
+echo "cPanel Installation succeeded"
+
