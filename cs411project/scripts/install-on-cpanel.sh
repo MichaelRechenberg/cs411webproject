@@ -36,11 +36,13 @@ source "${GIT_HOME_DIR}/cs411project/scripts/check-errs.sh"
 source ${CPANEL_VENV_ACTIVATE}
 check_errs $? "Could not activate virtualenv"
 
+echo ""
 pip freeze
+echo ""
 
 cd ${GIT_HOME_DIR}
 echo "Uninstalling all packages in virtualenvironment"
-pip freeze | xargs pip uninstall -y
+pip freeze | xargs --no-run-if-empty pip uninstall -y
 check_errs $? "Failed to uninstall all packages in virtualenv"
 
 echo "Installing files from ${GIT_HOME_DIR}/requirements.txt"
