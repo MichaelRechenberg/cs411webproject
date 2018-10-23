@@ -5,6 +5,7 @@ from flask import Flask, g
 from .cs411project.database.database_connection import MySQLConnection
 from .cs411project.views.home_view import HomeView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
+from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -51,6 +52,8 @@ def after_request_cleanup(error):
 app.add_url_rule('/project/test', view_func=TestAPIView.as_view('test'))
 app.add_url_rule('/project/test/<netID>', view_func=TestPreparedStatementAPIView.as_view('testPrepared'))
 app.add_url_rule('/project', view_func=HomeView.as_view('home'))
+app.add_url_rule('/project/machine/availability', view_func=BulkMachineAvailabilityView.as_view('bulk_machine_avail'))
+app.add_url_rule('/project/machine/availability/<int:machineID>', view_func=MachineAvailabilityView.as_view('machine_avail'))
 
 
 
