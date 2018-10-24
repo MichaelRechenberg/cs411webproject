@@ -2,6 +2,7 @@ MACHINE_STATUS_BROKEN = 0
 MACHINE_STATUS_ALIVE = 1
 
 # TODO: remove this and actually query locations after basic demo
+# x should be within [0-3] and y should be within [0-8]
 STUB_LOCATION_DICT = {
     '1': {
         'x': 0,
@@ -16,12 +17,12 @@ STUB_LOCATION_DICT = {
         'y': 0
      },
     '4': {
-        'x': 4,
-        'y': 0
+        'x': 3,
+        'y': 1
      },
     '5': {
-        'x': 5,
-        'y': 0
+        'x': 3,
+        'y': 7 
      },
     '6': {
         'x': 0,
