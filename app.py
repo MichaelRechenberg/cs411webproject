@@ -1,5 +1,6 @@
 import os
 from flask import Flask, g
+from flask_cors import CORS
 
 
 from .cs411project.database.database_connection import MySQLConnection
@@ -10,6 +11,8 @@ from .cs411project.views.machine_availability_view import BulkMachineAvailabilit
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
 app = Flask(__name__)
+# Enable CORS across all requests (later this can be on a per URL/regex level)
+CORS(app)
 
 
 # Any global configuration (e.g. database configurations, before_request handlers)
