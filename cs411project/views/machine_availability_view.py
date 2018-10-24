@@ -1,9 +1,9 @@
 from flask import g
 from flask.views import MethodView
+from flask.json import jsonify
 from ..database.entity_serializer import EntitySerializer
 from ..database.constants import MACHINE_STATUS_BROKEN, MACHINE_STATUS_ALIVE, STUB_LOCATION_DICT
 
-import json
 
 
 
@@ -65,7 +65,7 @@ class BulkMachineAvailabilityView(MethodView):
         cursor.close()
 
         # We have the result set returned as JSON
-        return json.dumps(result_as_dicts)
+        return jsonify(result_as_dicts)
 
 
 class MachineAvailabilityView(MethodView):
@@ -129,5 +129,5 @@ class MachineAvailabilityView(MethodView):
         if len(result_as_dicts) > 0:
             result = result_as_dicts[0]
 
-        return json.dumps(result)
+        return jsonify(result)
 
