@@ -1,8 +1,3 @@
- function choosePC(elementID){
-                var PC = document.getElementById(elementID).textContent;
-                        document.getElementById("Computer Chosen").innerHTML = "Comment on PC #"+PC;
-                        document.getElementById("MachineId").value = PC;
-}
 $(document).ready(function () {
     $.ajax({
         method: "GET",

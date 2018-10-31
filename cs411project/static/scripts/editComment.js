@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $.ajax({
         method: "GET",
-        url: "http://teamrocket.web.illinois.edu/mike-dev/project/machine/availability",
+        url: ,
         dataType: "json",
         crossDomain: true,
         success: function(result) {

@@ -5,6 +5,9 @@ from flask_cors import CORS
 
 from .cs411project.database.database_connection import MySQLConnection
 from .cs411project.views.home_view import HomeView
+from .cs411project.views.main_view import mainView
+from .cs411project.views.comment_view import commentView
+from .cs411project.views.edit_view import editView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
 from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
 
@@ -57,6 +60,10 @@ app.add_url_rule('/project/test/<netID>', view_func=TestPreparedStatementAPIView
 app.add_url_rule('/project', view_func=HomeView.as_view('home'))
 app.add_url_rule('/project/machine/availability', view_func=BulkMachineAvailabilityView.as_view('bulk_machine_avail'))
 app.add_url_rule('/project/machine/availability/<int:machineID>', view_func=MachineAvailabilityView.as_view('machine_avail'))
+app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
+app.add_url_rule('/comment', view_func=commentView.as_view('commentPage'))
+app.add_url_rule('/comment/edit', view_func=editView.as_view('editCommentPage'))
+
 
 
 
