@@ -19,7 +19,7 @@
                     var Category = $("input[name=Category]:checked").val();
                     $.ajax({
                         method: "POST",
-                        url: 'http://teamrocket.web.illinois.edu/mike-dev/project/comment/insert',
+                        url: 'http://teamrocket.web.illinois.edu/project/comment/insert',
                         dataType: 'json',
                         data: JSON.stringify({
                             "AuthorNetID": NetId,
@@ -99,7 +99,7 @@
                 </form>
                 <button id="createComment" type="button" style="margin: 5px;" onclick="sendComment()" class="btn btn-default" value="Submit">Submit</button>
             </div>
-            <a href="http://127.0.0.1:8080/comment" class="btn btn-primary">Comment Section</a>
+            <a href="http://teamrocket.web.illinois.edu/comment" class="btn btn-primary">Comment Section</a>
         </div>
     </body>
 </html>

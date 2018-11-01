@@ -1,15 +1,19 @@
 import os
 from flask import g, Flask, request
+from flask_cors import CORS
 
 
 from .cs411project.database.database_connection import MySQLConnection
+
 from .cs411project.views.main_view import mainView
-from .cs411project.views.comment_view import CommentChangeView, CommentView
 from .cs411project.views.comment_html_view import CommentHTMLView
+from .cs411project.views.comment_view import CommentChangeView, CommentView
 from .cs411project.views.edit_view import editView
-from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
 from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
+from .cs411project.views.machine_view import SpecificMachineView, MachinesView
 from .cs411project.views.query_comment import QueryCommentView
+from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
+from .cs411project.views.user_view import SpecificUserView, UsersView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -68,6 +72,7 @@ app.add_url_rule('/project/machine/availability/<int:machineID>', view_func=Mach
 
 # Comment API
 app.add_url_rule('/project/comment/query', view_func=QueryCommentView.as_view('query_comment'))
+app.add_url_rule('/project/comment/<comment_id>', view_func=CommentView.as_view('get_specific_comment'))
 app.add_url_rule('/project/comment/insert', view_func=CommentView.as_view('comment'))
 app.add_url_rule('/project/comment/update/<CommentID>', view_func=CommentChangeView.as_view('commentChange'))
 app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))

@@ -1,7 +1,7 @@
 $(document).ready(function () {
         $.ajax({
             method: "POST",
-            url: "http://teamrocket.web.illinois.edu/mike-dev/project/comment/query",
+            url: "http://teamrocket.web.illinois.edu/project/comment/query",
             data: JSON.stringify({
                 
             }),
@@ -18,7 +18,7 @@ $(document).ready(function () {
                    list_html += "<p> Category: " + data[i]['Category'] + "</p>";
                    list_html += "<div class='commentBox'> <p>" + data[i]['CommentText'] + "</p> </div>";
                    if(data[i]['AuthorNetID'] == "hop2"){
-                      list_html += "<a class='btn btn-warning' href='http://teamrocket.web.illinois.edu/mike-dev/comment/edit/'"
+                      list_html += "<a class='btn btn-warning' href='http://teamrocket.web.illinois.edu/comment/edit/'"
                       + data[i]['CommentId'] + "> Update Comment <a>";
                    }
                    list_html += "</div></li>";

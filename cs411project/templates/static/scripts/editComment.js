@@ -19,15 +19,15 @@ function updateComment(){
           "CommentID": commentID
         })
     }).then(function () {
-        window.location.replace("http://teamrocket.web.illinois.edu/mike-dev/project/comment");
+        window.location.replace("http://teamrocket.web.illinois.edu/project/comment");
     });
 }
 function deleteComment(){
     var commentID = Number(document.getElementById("commentId").val());
     $.ajax({
         method: "DELETE",
-        url: 'http://teamrocket.web.illinois.edu/mike-dev/comment/delete/' + commentID,
+        url: 'http://teamrocket.web.illinois.edu/comment/delete/' + commentID,
     }).then(function () {
-        window.location.replace("http://teamrocket.web.illinois.edu/mike-dev/project/comment");
+        window.location.replace("http://teamrocket.web.illinois.edu/project/comment");
     });
 }

@@ -66,3 +66,17 @@ class CommentView(MethodView):
                 connection.commit()
                 cursor.close()
                 return jsonify({'Result': True})
+
+        def get(self, comment_id):
+                connection  = g.mysql_connection.get_connection()
+                cursor = connection.cursor(prepared=True)
+                query = "SELECT * FROM Comments WHERE CommentID = (%s)"
+                cursor.execute(query,(comment_id,))
+
+                field_names = [x[0] for x in cursor.description]
+                result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, field_names))
+                cursor.close()
+
+                return jsonify(result_as_dicts)
+
+                

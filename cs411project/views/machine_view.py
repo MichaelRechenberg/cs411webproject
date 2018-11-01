@@ -5,19 +5,6 @@ from ..database.entity_serializer import EntitySerializer
 
 import json
 
-
-
-class SpecificMachineCommentsView(MethodView):
-        def get(self,MachineID):
-                connection  = g.mysql_connection.get_connection()
-                cursor = connection.cursor(prepared=True)
-                query = "SELECT CommentID, AuthorNetID, Category, CommentText  FROM Comments WHERE Comments.MachineID = %s"
-                cursor.execute(query,(MachineID))
-                col_names = [x[0] for x in cursor.description]
-                result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, col_names))
-                cursor.close()
-                return jsonify(result_as_dicts)
-
 class SpecificMachineView(MethodView):
         def get(self,MachineID):
                 connection  = g.mysql_connection.get_connection()
