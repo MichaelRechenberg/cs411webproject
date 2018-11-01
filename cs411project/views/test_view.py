@@ -1,4 +1,4 @@
-from flask import g
+from flask import g, Flask, request
 from flask.views import MethodView
 from ..database.entity_serializer import EntitySerializer
 

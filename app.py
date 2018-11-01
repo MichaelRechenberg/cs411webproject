@@ -1,5 +1,5 @@
 import os
-from flask import Flask, g
+from flask import g, Flask, request
 
 
 from .cs411project.database.database_connection import MySQLConnection
@@ -20,7 +20,7 @@ app.config.update(
     # Password to use to login to the MySQL database with
     MYSQL_PASSWORD = os.environ['CS411_MYSQL_PASSWORD'],
     # Name of database to connect to by default
-    MYSQL_DATABASE = os.environ['CS411_MYSQL_DATABASE']
+    MYSQL_DATABASE = os.environ['CS411_MYSQL_DATABASE'])
 
 
 
@@ -51,11 +51,12 @@ app.add_url_rule('/project/machines/<MachineID>', view_func=SpecificMachineView.
 
 app.add_url_rule('/project/machines/comments/<MachineID>', view_func=SpecificMachineCommentsView.as_view('specificMachineComments'))
 
-# TODO: change URLs to distinguish between this URL and the URL to update a comment
-app.add_url_rule('/project/comment/<MachineID>/<AuthorNetID>/<Category>/<CommentText>', view_func=CommentView.as_view('comment'))
-app.add_url_rule('/project/comment/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))
-app.add_url_rule('/project/comment/<CommentID>/<CommentText>/<isResolved>', view_func=CommentChangeView.as_view('commentChange'))
+
+app.add_url_rule('/project/comment/insert', view_func=CommentView.as_view('comment'))
+app.add_url_rule('/project/comment/<CommentID>', view_func=CommentChangeView.as_view('commentChange'))
+app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))
 
 
 
+app.run(port=8082)
 application = app
