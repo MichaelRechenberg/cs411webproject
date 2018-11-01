@@ -10,6 +10,7 @@ from .cs411project.views.comment_view import commentView
 from .cs411project.views.edit_view import editView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
 from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
+from .cs411project.views.query_comment import QueryCommentView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -22,11 +23,11 @@ CORS(app)
 # Any global configuration (e.g. database configurations, before_request handlers)
 app.config.update(
     # User to login to the MySQL database with
-    MYSQL_USER = "Foo", #os.environ['CS411_MYSQL_USER'],
+    MYSQL_USER = os.environ['CS411_MYSQL_USER'],
     # Password to use to login to the MySQL database with
-    MYSQL_PASSWORD = "foo", #os.environ['CS411_MYSQL_PASSWORD'],
+    MYSQL_PASSWORD = os.environ['CS411_MYSQL_PASSWORD'],
     # Name of database to connect to by default
-    MYSQL_DATABASE = "Foo", #os.environ['CS411_MYSQL_DATABASE']
+    MYSQL_DATABASE = os.environ['CS411_MYSQL_DATABASE']
 )
 
 # Before each request, initialize a MySQLConnection instance
@@ -56,11 +57,15 @@ def after_request_cleanup(error):
 
 
 # Apply routing: map URLs to the View class to handle the logic of that route
+# API endpoints
 app.add_url_rule('/project/test', view_func=TestAPIView.as_view('test'))
 app.add_url_rule('/project/test/<netID>', view_func=TestPreparedStatementAPIView.as_view('testPrepared'))
 app.add_url_rule('/project', view_func=HomeView.as_view('home'))
 app.add_url_rule('/project/machine/availability', view_func=BulkMachineAvailabilityView.as_view('bulk_machine_avail'))
 app.add_url_rule('/project/machine/availability/<int:machineID>', view_func=MachineAvailabilityView.as_view('machine_avail'))
+app.add_url_rule('/project/comment/query', view_func=QueryCommentView.as_view('query_comment'))
+
+# HTML endpoints
 app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
 app.add_url_rule('/comment', view_func=commentView.as_view('commentPage'))
 app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editCommentPage'))

@@ -1,3 +1,4 @@
+# Definitions for Machine.Status
 MACHINE_STATUS_BROKEN = 0
 MACHINE_STATUS_ALIVE = 1
 
