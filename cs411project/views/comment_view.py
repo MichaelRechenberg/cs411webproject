@@ -12,25 +12,31 @@ class CommentChangeView(MethodView):
                 arg_count = len(request_json)
                 args = ()
 
-                category = request_json["Category"] if "Category" in request_json else ""
-                commentText = request_json["CommentText"] if "CommentText" in request_json else ""
-                hardwareID = request_json["HardwareID"] if "HardwareID" in request_json else ""
-                AuthorNetID = request_json["AuthorNetID"] if "AuthorNetID" in request_json else ""
+                category = request_json["Category"] if "Category" in request_json else None
+                commentText = request_json["CommentText"] if "CommentText" in request_json else None
+                hardwareID = request_json["HardwareID"] if "HardwareID" in request_json else None 
+                authorNetID = request_json["AuthorNetID"] if "AuthorNetID" in request_json else None
+                isResolved = request_json["IsResolved"] if "IsResolved" in request_json else None
                 query = "UPDATE Comments SET "
-                if len(category) > 0:
-                        query += "Category = %s, "
-                        args = args + (request_json['Category'],)
-                if len(commentText) > 0:
-                        query += "CommentText = %s,"
-                        args = args + (request_json['CommentText'],)
-                if len(hardwareID) > 0:
-                        query += "HardwareID = %s, "
-                        args = args + (request_json['HardwareID'],)
-                if len(AuthorNetID) > 0:
-                        query += "AuthorNetID = %s, "
-                        args = args + (request_json['AuthorNetID'],)
-                query_end = " WHERE CommentID = %s"
+                if category is not None:
+                        query += "Category = (%s), "
+                        args = args + (category,)
+                if commentText is not None:
+                        query += "CommentText = (%s), "
+                        args = args + (commentText,)
+                if hardwareID is not None:
+                        query += "HardwareID = (%s), "
+                        args = args + (hardwareID,)
+                if authorNetID is not None:
+                        query += "AuthorNetID = (%s), "
+                        args = args + (authorNetID,)
+                if isResolved is not None:
+                        query += "IsResolved = (%s), "
+                        args = args + (isResolved,)
+
+                query_end = " WHERE CommentID = (%s)"
                 args = args + (str(CommentID),)
+                # the -2 is to remove the space and comma after adding a new attribute to update
                 query = query[0:len(query) - 2] + query_end                
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True) 
@@ -42,7 +48,7 @@ class CommentChangeView(MethodView):
         def delete(self,CommentID):
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True)
-                query = "DELETE FROM Comments WHERE CommentID = %s"
+                query = "DELETE FROM Comments WHERE CommentID = (%s)"
                 cursor.execute(query,(CommentID))
                 connection.commit()
                 cursor.close()
@@ -67,6 +73,7 @@ class CommentView(MethodView):
                 cursor.close()
                 return jsonify({'Result': True})
 
+        # Get the comment with this given comment_id as one JSON object (or an empty JSON object if the comment doesn't exist)
         def get(self, comment_id):
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True)
@@ -77,6 +84,7 @@ class CommentView(MethodView):
                 result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, field_names))
                 cursor.close()
 
-                return jsonify(result_as_dicts)
+                # Only return one comment object
+                return jsonify(result_as_dicts[0] if len(result_as_dicts) > 0 else {})
 
                 
