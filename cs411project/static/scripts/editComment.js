@@ -6,6 +6,8 @@ function updateComment(){
         url: '/comment/update',
         dataType: 'json',
         data: formData
+    }).then(function () {
+        window.location.replace("http://teamrocket.web.illinois.edu/mike-dev/project/comment");
     });
 }
 function deleteComment(){
@@ -15,5 +17,7 @@ function deleteComment(){
         url: '/comment/update',
         dataType: 'json',
         data: formData
+    }).then(function () {
+        window.location.replace("http://teamrocket.web.illinois.edu/mike-dev/project/comment");
     });
 }

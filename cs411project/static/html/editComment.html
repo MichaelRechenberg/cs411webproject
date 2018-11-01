@@ -20,9 +20,10 @@
                         document.getElementById("commentId").innerHTML = result["commentId"];
                         document.getElementById("Computer Chosen").innerHTML = "Update comment on PC#" + result["MachineID"];
                         document.getElementById("MachineId").innerHTML = result["MachineId"];
-                        document.getElementById("NetId").innerHTML = result["NetId"];
+                        document.getElementById("NetId").innerHTML = result["netId"];
                         document.getElementById("HardwareId").innerHTML = result["HardwareId"];
-                        document.getElementById("comment").innerHTML = result["comment"];                
+                        document.getElementById("comment").innerHTML = result["comment"];  
+                        document.getElementById(result["category"]).checked = true;             
                     },
                     error: function(xhr, status, error) {
                         console.log(xhr);
@@ -46,12 +47,13 @@
                             <input type="text" class="form-control" id="NetId" name="NetId">
                             <label for="HardwareId">HardwareId(Optional):</label>
                             <input type="text" class="form-control" id="HardwareId" name="HardwareId">
-                            <label class="checkbox-inline" style="margin: 5px;"><input type="checkbox" value="">Machine Problem</label>
-                            <label class="checkbox-inline" style="margin: 5px;"><input type="checkbox" value="">Hardware Problem</label>
-                            <label class="checkbox-inline" style="margin: 5px;"><input type="checkbox" value="">Sofware Problem</label>
+                            <label class="checkbox-inline" id="Machine Problem" style="margin: 5px;"><input type="checkbox" name="category" value="Machine Problem">Machine Problem</label>
+                            <label class="checkbox-inline" id="Hardware Problem" style="margin: 5px;"><input type="checkbox" name="category" value="Hardware Problem">Hardware Problem</label>
+                            <label class="checkbox-inline" id="Software Problem" style="margin: 5px;"><input type="checkbox" name="category" value="Sofrware Problem">Sofware Problem</label>
                             <p></p>
                             <label for="comment">Comment:</label>
                             <textarea class="form-control" rows="5" id="comment" name="Comment"></textarea>
+                            <label class="checkbox-inline" id="Machine Problem" style="margin: 5px;"><input type="checkbox" name="resolved" value="true">Issue resolved?</label>
                             <button type="button" style="margin: 5px;" onclick="updateComment()" class="btn btn-default">Update Comment</button>
                             <button type="button" style="margin: 5px;" onclick="deleteComment()" class="btn btn-default">Delete Comment</button>
                     </div>

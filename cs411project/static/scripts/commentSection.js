@@ -28,12 +28,3 @@ $(document).ready(function () {
          });
          return false;    
      });
-function sendComment(){
-    var formData = $('commentForm').serialize();
-    $.ajax({
-        method: "POST",
-        url: '/comment/create',
-        dataType: 'json',
-        data: formData
-    });
-}
