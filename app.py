@@ -7,6 +7,7 @@ from .cs411project.database.database_connection import MySQLConnection
 from .cs411project.views.home_view import HomeView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
 from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
+from .cs411project.views.query_comment import QueryCommentView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -57,6 +58,7 @@ app.add_url_rule('/project/test/<netID>', view_func=TestPreparedStatementAPIView
 app.add_url_rule('/project', view_func=HomeView.as_view('home'))
 app.add_url_rule('/project/machine/availability', view_func=BulkMachineAvailabilityView.as_view('bulk_machine_avail'))
 app.add_url_rule('/project/machine/availability/<int:machineID>', view_func=MachineAvailabilityView.as_view('machine_avail'))
+app.add_url_rule('/project/comment/query', view_func=QueryCommentView.as_view('query_comment'))
 
 
 
