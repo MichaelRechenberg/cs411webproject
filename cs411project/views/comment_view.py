@@ -67,7 +67,7 @@ class CommentView(MethodView):
                 MachineID = request_json["MachineID"] if "MachineID" in request_json else "NULL"
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True)
-                query = "INSERT INTO Comments (Category,CommentText,isResolved, HardwareID,AuthorNetID,MachineID) VALUES(%s,%s,0,%s,%s,%s)"
+                query = "INSERT INTO Comments (Category,CommentText,IsResolved,HardwareID,AuthorNetID,MachineID) VALUES((%s),(%s),0,(%s),(%s),(%s))"
                 cursor.execute(query,(category,commentText,hardwareID,AuthorNetID,MachineID))
                 connection.commit()
                 cursor.close()
