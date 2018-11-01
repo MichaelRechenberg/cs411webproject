@@ -58,5 +58,5 @@ app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeV
 
 
 
-app.run(port=8082)
+#app.run(port=8082)
 application = app
