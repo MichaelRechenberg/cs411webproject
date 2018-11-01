@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>UIUC VR Lab</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script src="../static/scripts/commentSection.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/style/commentSection.css"  />
+        <script>
+                function filterComments(){
+                    var MachineID = document.getElementById("MachineId").value;
+                    var NetId = document.getElementById("NetId").value;
+                    var status = document.getElementById("status");
+                    var resolution = status.options[status.selectedIndex].value;
+                    var data = {};
+                    if(NetId != "" && NetId != null){
+                        data['AuthorNetID'] = NetId;
+                    }
+                    if(MachineId != "" && MachineId != null && MachineID != 0){
+                        data['MachineID'] = Number(MachineID);
+                    }
+                    if (resolution < 2){
+                        data['IsResolved'] = Number(resolution);
+                    }
+                    displayComments(data);
+                }                
+        </script>
+    </head>
+    <body>
+        <h1 id="commentTitle"> Comment Section </h1>
+        <div>
+            <h3>Filter Comments By:</h3>
+            <label for="MachineId">MachineID:</label>
+            <input  id="MachineId" class="form-control" name="MachineId" value="">
+            <label for="NetId">Author:</label>
+            <input type="text" class="form-control" id="NetId" name="NetId">
+            <label for="NetId">Status:</label>
+            <select id="status" name="isResolved">
+                <option value="2">Either</option>
+                <option value="0">Not Resolved</option>
+                <option value="1">Resolved</option>
+            </select>
+            <button id="createComment" type="button" style="margin: 5px;" onclick="filterComments()" class="btn btn-default" value="Submit">Filter</button>
+        </div>
+        <div id="commentList">
+
+       </div>
+    </body>
+</html>

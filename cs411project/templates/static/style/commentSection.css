@@ -1,0 +1,21 @@
+.commentViewBox {
+    border: 2px solid black;
+    padding: 4px;
+    margin: 4px;
+}
+.commentBox {
+    border: 1px solid black;
+    padding: 2px;
+}
+.column {
+    float: left;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    border: 2px solid black;
+}
+
+#inputForm {
+    width: 600px;
+    padding: 10px;
+}

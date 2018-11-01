@@ -1,19 +1,26 @@
 import os
-from flask import Flask, g
+from flask import g, Flask, request
 from flask_cors import CORS
 
 
 from .cs411project.database.database_connection import MySQLConnection
-from .cs411project.views.home_view import HomeView
-from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
+
+from .cs411project.views.main_view import mainView
+from .cs411project.views.comment_html_view import CommentHTMLView
+from .cs411project.views.comment_view import CommentChangeView, CommentView
+from .cs411project.views.edit_view import editView
 from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
+from .cs411project.views.machine_view import SpecificMachineView, MachinesView
+from .cs411project.views.query_comment import QueryCommentView
+from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
+from .cs411project.views.user_view import SpecificUserView, UsersView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
-app = Flask(__name__)
+app = Flask(__name__, template_folder="cs411project/templates", static_folder="cs411project/templates/static")
+
 # Enable CORS across all requests (later this can be on a per URL/regex level)
 CORS(app)
-
 
 # Any global configuration (e.g. database configurations, before_request handlers)
 app.config.update(
@@ -25,11 +32,8 @@ app.config.update(
     MYSQL_DATABASE = os.environ['CS411_MYSQL_DATABASE']
 )
 
-# Before each request, initialize a MySQLConnection instance
-#   that is available throughout the HTTP request
-#
-# Other Flask entities (e.g. Views) can access this MySQLConnection through
-#   g.mysql_connection
+
+
 @app.before_request
 def before_request_prepare():
     if not hasattr(g, 'mysql_connection'):
@@ -51,24 +55,34 @@ def after_request_cleanup(error):
 
 
 
+
 # Apply routing: map URLs to the View class to handle the logic of that route
-app.add_url_rule('/project/test', view_func=TestAPIView.as_view('test'))
-app.add_url_rule('/project/test/<netID>', view_func=TestPreparedStatementAPIView.as_view('testPrepared'))
-app.add_url_rule('/project', view_func=HomeView.as_view('home'))
+
+# API endpoints
+
+# User API
+app.add_url_rule('/project/users/<NetID>', view_func=SpecificUserView.as_view('specificUser'))
+app.add_url_rule('/project/users/all', view_func=UsersView.as_view('users'))
+
+# Machine API
+app.add_url_rule('/project/machines/all',view_func=MachinesView.as_view('machines'))
+app.add_url_rule('/project/machines/<MachineID>', view_func=SpecificMachineView.as_view('specificMachine'))
 app.add_url_rule('/project/machine/availability', view_func=BulkMachineAvailabilityView.as_view('bulk_machine_avail'))
 app.add_url_rule('/project/machine/availability/<int:machineID>', view_func=MachineAvailabilityView.as_view('machine_avail'))
 
+# Comment API
+app.add_url_rule('/project/comment/query', view_func=QueryCommentView.as_view('query_comment'))
+app.add_url_rule('/project/comment/<comment_id>', view_func=CommentView.as_view('get_specific_comment'))
+app.add_url_rule('/project/comment/insert', view_func=CommentView.as_view('comment'))
+app.add_url_rule('/project/comment/update/<CommentID>', view_func=CommentChangeView.as_view('commentChange'))
+app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))
+
+# HTML endpoints
+app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
+app.add_url_rule('/comment', view_func=CommentHTMLView.as_view('commentPage'))
+app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editCommentPage'))
 
 
-#
-# The Flask app will be imported by passenger_wsgi.py in cPanel
-#   to hook up Flask to cPanel's own web server via the variable 'application'
-#
-# If you're doing local development, you can uncomment the
-#   the below line to run the Flask server locally
-#
-# app.run(port=8080)
 
+# Set variable to application so cPanel can use our Flask app
 application = app
-
-

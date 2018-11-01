@@ -4,7 +4,7 @@ class MySQLConnection:
     """Class to encapusate a single connection to MySQL
     """
 
-    def __init__(self, dbconfig: dict):
+    def __init__(self, dbconfig):
         """Create a MySQLConnection (need to call get_connection to retrieve an actual connection to the database)
 
 
