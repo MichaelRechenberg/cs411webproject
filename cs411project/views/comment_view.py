@@ -60,11 +60,11 @@ class CommentChangeView(MethodView):
 class CommentView(MethodView):
         def post(self):
                 request_json = request.get_json() 
-                category = request_json["Category"] if "Category" in request_json else "NULL"
-                commentText = request_json["CommentText"] if "CommentText" in request_json else "NULL"
-                hardwareID = request_json["HardwareID"] if "HardwareID" in request_json else "NULL"
-                AuthorNetID = request_json["AuthorNetID"] if "AuthorNetID" in request_json else "NULL"
-                MachineID = request_json["MachineID"] if "MachineID" in request_json else "NULL"
+                category = request_json["Category"] if "Category" in request_json else None
+                commentText = request_json["CommentText"] if "CommentText" in request_json else None
+                hardwareID = request_json["HardwareID"] if "HardwareID" in request_json else None
+                AuthorNetID = request_json["AuthorNetID"] if "AuthorNetID" in request_json else None
+                MachineID = request_json["MachineID"] if "MachineID" in request_json else None
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True)
                 query = "INSERT INTO Comments (Category,CommentText,IsResolved,HardwareID,AuthorNetID,MachineID) VALUES((%s),(%s),0,(%s),(%s),(%s))"

@@ -13,23 +13,32 @@
         <script>
                 function sendComment(){
                     var MachineID = Number(document.getElementById("MachineId").value);
-                    var HardwareID = Number(document.getElementById("HardwareId").value);
+                    var HardwareID = document.getElementById("HardwareId").value;
                     var NetId = document.getElementById("NetId").value;
                     var Comment = document.getElementById("Comment").value;
                     var Category = $("input[name=Category]:checked").val();
+
+
+		    var data = {};
+		    data['AuthorNetID'] = NetId;
+		    data['MachineID'] = MachineID;
+		    data['CommentText'] = Comment;
+		    data['Category'] = Category;
+		    if (HardwareID) {
+			data['HardwareID'] = Number(HardwareID);
+                    }
+
                     $.ajax({
                         method: "POST",
                         url: 'http://teamrocket.web.illinois.edu/project/comment/insert',
                         dataType: 'json',
-                        data: JSON.stringify({
-                            "AuthorNetID": NetId,
-                            "MachineID": MachineID,
-                            "HardwareID": HardwareID,
-                            "CommentText": Comment,
-                            "Category": Category 
-                          }),
-                          contentType: "application/json"
-                    });
+                        data: JSON.stringify(data),
+                        contentType: "application/json"
+                    }).then(function(result) {
+			alert("Successfully added comment!");
+	            }).catch(function(err){
+			console.log(err);
+		    });
                 }
         </script>
     </head>
