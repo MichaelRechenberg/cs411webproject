@@ -1,8 +1,8 @@
 /* Wipe the slate clean */
 DELETE FROM HeartbeatSequence;
-DELETE FROM Users;
-DELETE FROM Machine;
 DELETE FROM Comments;
+DELETE FROM Machine;
+DELETE FROM Users;
 DELETE FROM Hardware;
 
 /* 10 Machines and Heartbeat sequence inserts 
@@ -91,34 +91,34 @@ INSERT INTO Hardware(HardwareID, Type) VALUES (12, 1);
 */
 /* TODO: Change Category to an FK to DownageCategory after midterm demo */
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('unity', 'Lighting engine is giving stack overflow error for MP2', 0, NULL, 'rchnbrg2', 1);
+  ('Software Problem', 'Lighting engine is giving stack overflow error for MP2', 0, NULL, 'rchnbrg2', 1);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('headset', 'Lens is dirty', 0, 1, 'rchnbrg2', 1);
+  ('Hardware Problem', 'Lens is dirty', 0, 1, 'rchnbrg2', 1);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('headset', 'The strap is broken', 0, NULL, 'aburk2', 1);
+  ('Hardware Problem', 'The strap is broken', 0, NULL, 'aburk2', 1);
 
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('unity', 'Missing a driver for nvidia', 1, NULL, 'aburk2', 2);
+  ('Machine Problem', 'Missing a driver for nvidia', 1, NULL, 'aburk2', 2);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('xbox', 'Left analog stick of controller is stuck', 0, 2, 'hop2', 2);
+  ('Hardware Problem', 'Left analog stick of controller is stuck', 0, 2, 'hop2', 2);
 
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('unity', 'Unity crashes after opening up MP4', 1, NULL, 'hop2', 3);
+  ('Software Problem', 'Unity crashes after opening up MP4', 1, NULL, 'hop2', 3);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('xbox', 'The B button is stuck', 1, NULL, 'rchnbrg2', 3);
+  ('Hardware Problem', 'The B button is stuck', 1, NULL, 'rchnbrg2', 3);
   
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('monitor', 'Missing HDMI cable', 1, NULL, 'hop2', 4);
+  ('Machine Problem', 'Missing HDMI cable', 1, NULL, 'hop2', 4);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('oculus', 'Could not calibrate headset', 1, NULL, 'hop2', 5);
+  ('Hardware Problem', 'Could not calibrate headset', 1, NULL, 'hop2', 5);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('oculus', 'Difficulty calibrating headset', 1, NULL, 'hop2', 6);
+  ('Hardware Problem', 'Difficulty calibrating headset', 1, NULL, 'hop2', 6);
 
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('monitor', 'Dead pixels on the right monitor', 1, NULL, 'hop2', 8);
+  ('Machine Problem', 'Dead pixels on the right monitor', 1, NULL, 'hop2', 8);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('unity', 'Cannot load unity package due to missing drivers', 1, NULL, 'hop2', 9);
+  ('Software Problem', 'Cannot load unity package due to missing drivers', 1, NULL, 'hop2', 9);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('oculus', 'License for Oculus expired', 1, NULL, 'hop2', 10);
+  ('Software Problem', 'License for Oculus expired', 1, NULL, 'hop2', 10);
 
 
