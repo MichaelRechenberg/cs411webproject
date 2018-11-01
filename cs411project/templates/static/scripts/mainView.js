@@ -18,11 +18,13 @@ $(document).ready(function () {
                 var location = "("+ x + "," + y + ")"
                 document.getElementById(location).innerHTML = MachineID;
                 if(avail == "BROKEN"){
-                    document.getElementById(location).style.backgroundColor = "red"
+                    document.getElementById(location).style.backgroundColor = "red";
                 }
                 if(avail == "AVAILABLE"){
-                    document.getElementById(location).style.backgroundColor = "green"
-
+                    document.getElementById(location).style.backgroundColor = "green";
+                }
+                if(avail == "IN-USE"){
+                    document.getElementById(location).style.backgroundColor = "yellow";
                 }
 
             }
