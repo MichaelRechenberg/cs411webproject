@@ -1,3 +1,9 @@
+.commentViewBox {
+    border: 2px solid black;
+}
+.commentBox {
+    border: 1px solid black;
+}
 .column {
     float: left;
     height: 40px;

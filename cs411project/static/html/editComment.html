@@ -9,6 +9,29 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <script src="../scripts/mainView.js"></script>
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    method: "GET",
+                    url: "http://teamrocket.web.illinois.edu/mike-dev/project/comment/{{ commentId }}",
+                    dataType: "json",
+                    crossDomain: true,
+                    success: function(result) {
+                        document.getElementById("commentId").innerHTML = result["commentId"];
+                        document.getElementById("Computer Chosen").innerHTML = "Update comment on PC#" + result["MachineID"];
+                        document.getElementById("MachineId").innerHTML = result["MachineId"];
+                        document.getElementById("NetId").innerHTML = result["NetId"];
+                        document.getElementById("HardwareId").innerHTML = result["HardwareId"];
+                        document.getElementById("comment").innerHTML = result["comment"];                
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr);
+                        console.log(error);
+                      }
+                });
+            
+            });
+        </script>
         <link rel="stylesheet" type="text/css" href="../style/mainView.css"  />
     </head>
     <body>  

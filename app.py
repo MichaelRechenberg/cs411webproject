@@ -62,7 +62,7 @@ app.add_url_rule('/project/machine/availability', view_func=BulkMachineAvailabil
 app.add_url_rule('/project/machine/availability/<int:machineID>', view_func=MachineAvailabilityView.as_view('machine_avail'))
 app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
 app.add_url_rule('/comment', view_func=commentView.as_view('commentPage'))
-app.add_url_rule('/comment/edit', view_func=editView.as_view('editCommentPage'))
+app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editCommentPage'))
 
 
 

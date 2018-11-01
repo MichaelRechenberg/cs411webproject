@@ -1,36 +1,33 @@
 $(document).ready(function () {
-    $.ajax({
-        method: "GET",
-        url: "http://teamrocket.web.illinois.edu/mike-dev/project/machine/availability",
-        dataType: "json",
-        crossDomain: true,
-        success: function(result) {
-            for(var mach =0; mach < result.length; mach++){
-                var MachineID = result[mach]["MachineID"];
-                var x = result[mach]["location"]["x"];
-                var y = result[mach]["location"]["y"];
-                var avail = result[mach]["MachineAvailability"];
-                var location = "("+ x + "," + y + ")"
-                document.getElementById(location).innerHTML = MachineID;
-                if(avail == "BROKEN"){
-                    document.getElementById(location).style.backgroundColor = "red"
-                }
-                if(avail == "AVAILABLE"){
-                    document.getElementById(location).style.backgroundColor = "green"
-
-                }
-
+        $.ajax({
+            method: "POST",
+            url: "http://teamrocket.web.illinois.edu/mike-dev/comment/read",
+            dataType: "json",
+            crossDomain: true,
+            success: function (data) {
+                var list_html = "<ol>";
+                for( var i=0; i <data.length; i++) {
+                   list_html += "<li><div class='commentViewBox'>";
+                   list_html += "<p> Machine ID: " + data[i]['MachineId'] + "</p>";
+                   list_html += "<p> Harware ID: " + data[i]['HardwareId'];
+                   list_html += "<p> Author: " + data[i]['netId'] + "</p>";
+                   list_html += "<p> Category: " + data[i]['category'] + "</p>";
+                   list_html += "<div class='commentBox'> <p>" + data[i]['comment'] + "</p> </div>";
+                   if(data[i]['netId'] == "aburket2"){
+                      list_html += "<a class='btn btn-warning' href='http://teamrocket.web.illinois.edu/mike-dev/comment/edit/'"
+                      + data[i]['commentId'] + "> Update Comment <a>";
+                   }
+                   list_html += "</div></li>";
+                 }
+                list_html += "</ol>"
+                $("#commentList").html(list_html);
+            },
+            error: function(data) {
+                console.log('There was a problem');
             }
-        },
-        error: function(xhr, status, error) {
-            console.log(xhr);
-            //console.log(status);
-            console.log(error);
-          }
-    });
-    //document.getElementById("Computer Chosen").innerHTML = "BREAKPOINT #3";
-
-});
+         });
+         return false;    
+     });
 function sendComment(){
     var formData = $('commentForm').serialize();
     $.ajax({
