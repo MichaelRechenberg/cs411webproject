@@ -6,12 +6,15 @@
     border: 2px solid black;
 }
 .computerGrid {
-    position: fixed; /* or absolute */
     left: 5%;
     width: 800px;
     margin: 0 auto;
+    margin-left: 50px;
 }
 #inputForm {
     width: 600px;
     padding: 10px;
+}
+body {
+    overflow: scroll;
 }
