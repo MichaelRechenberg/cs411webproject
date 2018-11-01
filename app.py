@@ -13,7 +13,7 @@ from .cs411project.views.machine_availability_view import BulkMachineAvailabilit
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
-app = Flask(__name__, template_folder="cs411project/templates")
+app = Flask(__name__, template_folder="cs411project/templates", static_folder="cs411project/templates/static")
 
 # Enable CORS across all requests (later this can be on a per URL/regex level)
 CORS(app)
