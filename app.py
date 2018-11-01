@@ -50,12 +50,9 @@ app.add_url_rule('/project/users/<NetID>', view_func=SpecificUserView.as_view('s
 app.add_url_rule('/project/machines/<MachineID>', view_func=SpecificMachineView.as_view('specificMachine'))
 
 app.add_url_rule('/project/machines/comments/<MachineID>', view_func=SpecificMachineCommentsView.as_view('specificMachineComments'))
-
-
 app.add_url_rule('/project/comment/insert', view_func=CommentView.as_view('comment'))
-app.add_url_rule('/project/comment/<CommentID>', view_func=CommentChangeView.as_view('commentChange'))
+app.add_url_rule('/project/comment/update/<CommentID>', view_func=CommentChangeView.as_view('commentChange'))
 app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))
-
 
 
 #app.run(port=8082)
