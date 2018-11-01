@@ -1,0 +1,17 @@
+.column {
+    float: left;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    border: 2px solid black;
+}
+.computerGrid {
+    position: fixed; /* or absolute */
+    left: 5%;
+    width: 800px;
+    margin: 0 auto;
+}
+#inputForm {
+    width: 600px;
+    padding: 10px;
+}
