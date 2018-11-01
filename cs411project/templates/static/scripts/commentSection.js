@@ -3,7 +3,7 @@ $(document).ready(function () {
             method: "POST",
             url: "http://teamrocket.web.illinois.edu/mike-dev/project/comment/query",
             data: JSON.stringify({
-                "AuthorNetID" : "hop2"
+                
             }),
             contentType: "application/json",
             dataType: "json",

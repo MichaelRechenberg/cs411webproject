@@ -1,22 +1,32 @@
 
 function updateComment(){
-    var formData = $('commentForm').serialize();
+    var commentID = Number(document.getElementById("commentId").val());
+    var MachineID = Number(document.getElementById("MachineId").val());
+    var HardwareID = Number(document.getElementById("HardwareId").val());
+    var NetId = document.getElementById("NetId").val();
+    var comment = document.getElementById("comment").val();
     $.ajax({
         method: "PUT",
         url: '/comment/update',
         dataType: 'json',
-        data: formData
+        contentType: "application/json",
+        data: JSON.stringify({
+          "AuthorNetID": NetId,
+          "Comment": comment,
+          "MachineID": MachineID,
+          "HardwareID": HardwareID,
+          "CommentText": comment,
+          "CommentID": commentID
+        })
     }).then(function () {
         window.location.replace("http://teamrocket.web.illinois.edu/mike-dev/project/comment");
     });
 }
 function deleteComment(){
-    var formData = $('commentForm').serialize();
+    var commentID = Number(document.getElementById("commentId").val());
     $.ajax({
         method: "DELETE",
-        url: '/comment/update',
-        dataType: 'json',
-        data: formData
+        url: 'http://teamrocket.web.illinois.edu/mike-dev/comment/delete/' + commentID,
     }).then(function () {
         window.location.replace("http://teamrocket.web.illinois.edu/mike-dev/project/comment");
     });

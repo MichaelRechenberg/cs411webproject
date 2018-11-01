@@ -37,11 +37,23 @@ $(document).ready(function () {
 
 });
 function sendComment(){
-    var formData = $('commentForm').serialize();
+    var MachineID = Number(document.getElementById("MachineId").val());
+    var HardwareID = Number(document.getElementById("HardwareId").val());
+    var NetId = document.getElementById("NetId").val();
+    var comment = document.getElementById("comment").val();
     $.ajax({
         method: "POST",
-        url: '/comment/create',
+        url: 'http://teamrocket.web.illinois.edu/mike-dev/project/comment/insert',
         dataType: 'json',
-        data: formData
+        data: JSON.stringify({
+            "AuthorNetID": NetId,
+            "MachineID": MachineID,
+            "HardwareID": HardwareID,
+            "CommentText": comment,
+            "Category": ""
+          }),
+          contentType: "application/json"
+    }).then(function () {
+        window.location.replace("http://teamrocket.web.illinois.edu/mike-dev/project/comment");
     });
 }
