@@ -1,11 +1,18 @@
 from flask import g, Flask, request
 from flask.views import MethodView
 from ..database.entity_serializer import EntitySerializer
+from ..database.report_database_error import report_db_error
 
 import json
 
 # A simple test View to make sure the pipes fit with cPanel
 class TestAPIView(MethodView):
+
+    # For debugging purposes only, we can wrap all requests of this View with
+    #   report_db_error...which will catch all errors that come from mysql.connector
+    #   and return HTTP 500 and the string of the error
+    # To add the decorator, just override the decorators variable of a View like so:
+    decorators = [report_db_error]
 
     def get(self):
         # TODO: make this more testable by having a TestAPIView take a MySQLConnection in its constructor
