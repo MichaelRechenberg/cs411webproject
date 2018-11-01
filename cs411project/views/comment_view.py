@@ -49,7 +49,7 @@ class CommentChangeView(MethodView):
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True)
                 query = "DELETE FROM Comments WHERE CommentID = (%s)"
-                cursor.execute(query,(CommentID))
+                cursor.execute(query,(CommentID,))
                 connection.commit()
                 cursor.close()
                 return jsonify({'Result': True})

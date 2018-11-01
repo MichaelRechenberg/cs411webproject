@@ -35,7 +35,7 @@ function deleteComment(){
     var commentID = Number(document.getElementById("commentId").value);
     $.ajax({
         method: "DELETE",
-        url: 'http://teamrocket.web.illinois.edu/comment/delete/' + commentID,
+        url: 'http://teamrocket.web.illinois.edu/project/comment/delete/' + commentID,
     }).then(function () {
 	// Redirect to the main view comments page after deleting comment
         window.location.replace("http://teamrocket.web.illinois.edu/comment");
