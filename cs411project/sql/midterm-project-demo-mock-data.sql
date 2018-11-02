@@ -59,7 +59,7 @@ UPDATE HeartbeatSequence SET NumHeartBeats = NumHeartBeats + 1 WHERE MachineID =
 /* Mock users */
 /* All 4 of devs are students, 1 TA named Dan w/ netId dmace2 */
 INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('rchnbrg2', 0, 'Michael', 'Rechenberg');
-INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('aburk2', 0, 'Adam', 'Burkett');
+INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('aburket2', 0, 'Adam', 'Burkett');
 INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('hop2', 0, 'Tianyu', 'Liang');
 INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('tvargh4', 0, 'Thomas', 'Varghese');
 INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('dmace2', 1, 'Dan', 'Mace');
@@ -95,10 +95,10 @@ INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID,
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
   ('Hardware Problem', 'Lens is dirty', 0, 1, 'rchnbrg2', 1);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('Hardware Problem', 'The strap is broken', 0, NULL, 'aburk2', 1);
+  ('Hardware Problem', 'The strap is broken', 0, NULL, 'aburket2', 1);
 
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
-  ('Machine Problem', 'Missing a driver for nvidia', 1, NULL, 'aburk2', 2);
+  ('Machine Problem', 'Missing a driver for nvidia', 1, NULL, 'aburket2', 2);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES 
   ('Hardware Problem', 'Left analog stick of controller is stuck', 0, 2, 'hop2', 2);
 
