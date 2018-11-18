@@ -14,6 +14,9 @@ from .cs411project.views.machine_view import SpecificMachineView, MachinesView
 from .cs411project.views.query_comment import QueryCommentView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
 from .cs411project.views.user_view import SpecificUserView, UsersView
+from .cs411project.views.downage_category_view import SimpleDownageCategoryView, \
+        SimpleDownageCategoryStartBatchView, MixtureModelDownageCategoryStartBatchView, \
+        MixtureModelDownageCategoryView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -76,6 +79,12 @@ app.add_url_rule('/project/comment/<comment_id>', view_func=CommentView.as_view(
 app.add_url_rule('/project/comment/insert', view_func=CommentView.as_view('comment'))
 app.add_url_rule('/project/comment/update/<CommentID>', view_func=CommentChangeView.as_view('commentChange'))
 app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))
+
+# Downage Category API
+app.add_url_rule('/project/downage-category/simple/startBatch', view_func=SimpleDownageCategoryStartBatchView.as_view('downageCategorySimpleStartBatch'))
+app.add_url_rule('/project/downage-category/simple', view_func=SimpleDownageCategoryView.as_view('downageCategorySimpleGET'))
+app.add_url_rule('/project/downage-category/mixture/startBatch', view_func=MixtureModelDownageCategoryStartBatchView.as_view('downageCategoryMixtureStartBatch'))
+app.add_url_rule('/project/downage-category/mixture/<int:machine_id>', view_func=MixtureModelDownageCategoryView.as_view('downageCategoryMixtureGET'))
 
 # HTML endpoints
 app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
