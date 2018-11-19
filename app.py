@@ -13,7 +13,7 @@ from .cs411project.views.machine_availability_view import BulkMachineAvailabilit
 from .cs411project.views.machine_view import SpecificMachineView, MachinesView
 from .cs411project.views.query_comment import QueryCommentView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
-from .cs411project.views.user_view import SpecificUserView, UsersView
+from .cs411project.views.user_view import SpecificUserView, UsersView, NewUserView
 from .cs411project.views.downage_category_view import SimpleDownageCategoryView, \
         SimpleDownageCategoryStartBatchView, MixtureModelDownageCategoryStartBatchView, \
         MixtureModelDownageCategoryView, DownageCategoriesEditingExistingCommentView
@@ -66,6 +66,7 @@ def after_request_cleanup(error):
 # User API
 app.add_url_rule('/project/users/<NetID>', view_func=SpecificUserView.as_view('specificUser'))
 app.add_url_rule('/project/users/all', view_func=UsersView.as_view('users'))
+app.add_url_rule('/project/users/new', view_func=NewUserView.as_view('newUser'))
 
 # Machine API
 app.add_url_rule('/project/machines/all',view_func=MachinesView.as_view('machines'))
