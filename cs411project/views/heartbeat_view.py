@@ -11,9 +11,9 @@ class InsertHB(MethodView):
         """netID is a string given from URL
         """
 
-        connection = g.mysql_connection.get_connection()
+        # connection = g.mysql_connection.get_connection()
 
-        cursor = connection.cursor(prepared=True)
+        # cursor = connection.cursor(prepared=True)
 
         #query = 'INSERT INTO HeartbeatSequence(Tfail, NumHeartBeats, NetID, MachineID, FirstTS, LastTS) VALUES (%s, 1, %s, %s, SUBTIME(CURRENT_TIMESTAMP, %s), SUBTIME(CURRENT_TIMESTAMP,%s));'
         #query_args = ('00:05:00',netID,machineID, '00:10:00', '00:09:00')
@@ -79,10 +79,18 @@ class InsertHB(MethodView):
         #             """
         #         cursor.execute(query, (result[0]['SeqID']))
 
-        cursor.close()
+        # cursor.close()
 
         # result = {}
         # if len(result_as_dicts) > 0:
         #     result = result_as_dicts[0]
 
-        return 
+        # return 
+        connection  = g.mysql_connection.get_connection()
+        cursor = connection.cursor(prepared=True)
+        query = "SELECT * FROM Machine WHERE Machine.MachineID = %s"
+        cursor.execute(query,(MachineID))
+        col_names = [x[0] for x in cursor.description]
+        result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, col_names))
+        cursor.close()
+        return jsonify(result_as_dicts)
