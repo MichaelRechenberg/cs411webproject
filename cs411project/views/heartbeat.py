@@ -4,8 +4,7 @@ from ..database.entity_serializer import EntitySerializer
 
 import json
 
-class InsertHB(MethodView):
-
+class InsertHBView(MethodView):
     def get(self, netID, machineID):
         """netID is a string given from URL
         """
@@ -18,19 +17,20 @@ class InsertHB(MethodView):
         #query_args = ('00:05:00',netID,machineID, '00:10:00', '00:09:00')
         query = """
                 SELECT NetID, FirstTS, LastTS, Tfail, SeqID
-                -- FROM HeartbeatSequence
-                -- WHERE SeqID =
-                --     (SELECT Max(SeqID) AS M
-                --     FROM HeartbeatSequence
-                --     WHERE MachineID = %s
-                --     GROUP BY MachineID)
-                --     AND
-                --     NetID = %s
+                FROM HeartbeatSequence
+                WHERE SeqID =
+                    (SELECT Max(SeqID) AS M
+                    FROM HeartbeatSequence
+                    WHERE MachineID = %s
+                    GROUP BY MachineID)
+                    AND
+                    NetID = %s
                 """
 
 
         cursor.execute(query, (machineID, netID))
-
+        col_names = [x[0] for x in cursor.description]
+        result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, col_names))
         # result = list(cursor);
 
         # if not result:
@@ -68,4 +68,4 @@ class InsertHB(MethodView):
         #         cursor.execute(query, (result[0]['SeqID']))
 
         cursor.close()
-        return jsonify({})
+        return jsonify(result_as_dicts)
