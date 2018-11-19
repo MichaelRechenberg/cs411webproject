@@ -7,7 +7,7 @@ import json
 
 class InsertHB(MethodView):
 
-    def get(self, NetID, machineID):
+    def get(self, machineID):
         connection  = g.mysql_connection.get_connection()
         cursor = connection.cursor(prepared=True)
         query = "SELECT * FROM Machine WHERE Machine.MachineID = %s"
@@ -15,4 +15,4 @@ class InsertHB(MethodView):
         col_names = [x[0] for x in cursor.description]
         result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, col_names))
         cursor.close()
-        return NetID
+        return jsonify(result_as_dicts)

@@ -83,6 +83,6 @@ app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
 app.add_url_rule('/comment', view_func=CommentHTMLView.as_view('commentPage'))
 app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editCommentPage'))
 
-app.add_url_rule('/project/heartbeat/<NetID>/<int:machineID>', view_func=InsertHB.as_view('inserthb'))
+app.add_url_rule('/project/heartbeat/<int:machineID>', view_func=InsertHB.as_view('inserthb'))
 # Set variable to application so cPanel can use our Flask app
 application = app
