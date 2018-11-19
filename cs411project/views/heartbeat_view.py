@@ -31,7 +31,7 @@ class InsertHB(MethodView):
                 """
 
 
-        result = cursor.execute(query, (machineID, netID))
+        #result = cursor.execute(query, (machineID, netID))
 
 
 
