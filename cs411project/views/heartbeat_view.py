@@ -24,10 +24,10 @@ class InsertHB(MethodView):
                 WHERE SeqID =
                     (SELECT Max(SeqID) AS M
                     FROM HeartbeatSequence
-                    WHERE MachineID = %s
+                    WHERE MachineID = (%s)
                     GROUP BY MachineID)
                     AND
-                    NetID = %s
+                    NetID = (%s)
                 """
 
 
@@ -79,4 +79,4 @@ class InsertHB(MethodView):
         # if len(result_as_dicts) > 0:
         #     result = result_as_dicts[0]
 
-        return jsonify(list(result))
+        return jsonify(result)
