@@ -21,7 +21,7 @@ class InsertHB(MethodView):
         query = """
                 SELECT NetID, FirstTS, LastTS, Tfail, SeqID
                 FROM HeartbeatSequence
-                WHERE SeqID =
+                WHERE SeqID IN
                     (SELECT Max(SeqID) AS M
                     FROM HeartbeatSequence
                     WHERE MachineID = %s
