@@ -7,7 +7,7 @@ import json
 
 class InsertHB(MethodView):
 
-    def get(self, netID, machineID):
+    def get(self, NetID, machineID):
         """netID is a string given from URL
         """
 
