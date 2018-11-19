@@ -81,8 +81,11 @@ class SimpleDownageCategoryView(MethodView):
         connection  = g.mysql_connection.get_connection()
 
         result_as_dicts = SimpleDownageCategoryView.get_simple_downage_categories(connection)
-
         connection.commit()
+
+        if result_as_dicts is None:
+            return jsonify("No downage category batches have ran yet"), 400
+
         return jsonify(result_as_dicts)
 
     @classmethod
@@ -90,6 +93,8 @@ class SimpleDownageCategoryView(MethodView):
         """Get the 'simple' downage categories from the DB
 
            Caller must call .commit() on the connection
+
+           Returns None if there are no 'simple' downage categories in the DB
         """
         cursor = connection.cursor(prepared=True)
 
@@ -100,7 +105,12 @@ class SimpleDownageCategoryView(MethodView):
         """
 
         cursor.execute(get_latest_batch_id_query)
-        batch_id = int(cursor.fetchone()[0])
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            return None
+
+        batch_id = int(row[0])
 
         get_latest_downage_categories_query = """
            SELECT * FROM DownageCategory WHERE BatchID = (%s) AND MachineID IS NULL
@@ -236,8 +246,11 @@ class MixtureModelDownageCategoryView(MethodView):
         connection  = g.mysql_connection.get_connection()
 
         result_as_dicts = MixtureModelDownageCategoryView.get_downage_categories_for_machine(connection, machine_id)
-
         connection.commit()
+
+        if result_as_dicts is None:
+            return jsonify("No downage categories have been computed yet (failed to fall back to lab-wide categories)"), 400
+
         return jsonify(result_as_dicts)
 
     @classmethod
@@ -245,6 +258,8 @@ class MixtureModelDownageCategoryView(MethodView):
         """Get the downage categories for a given machine, falling back to lab-wide 'simple' downage categories if needed
 
             Caller must call .commit() on the connection
+
+            Returns None if there are no downage categories in the DB (e.g. no batches to compute DC have ran yet)
         """
 
         cursor = connection.cursor(prepared=True)
@@ -257,7 +272,11 @@ class MixtureModelDownageCategoryView(MethodView):
         """
 
         cursor.execute(get_latest_batch_id_query)
-        batch_id = int(cursor.fetchone()[0])
+        row = cursor.fetchone()
+        if row is None:
+            cursor.close()
+            return None
+        batch_id = int(row[0])
 
         get_downage_categories_for_machine_query = """
            SELECT *
@@ -297,11 +316,17 @@ class DownageCategoriesEditingExistingCommentView(MethodView):
         connection = g.mysql_connection.get_connection()
         result_as_dicts = DownageCategoriesEditingExistingCommentView.get_downage_categories_for_editing_comment(connection, comment_id)
         connection.close()
+
+        if result_as_dicts is None:
+            return jsonify("No Comment found with id {0}, or no downage categories could be found for its Machine".format(comment_id)), 400
+
         return jsonify(result_as_dicts)
 
     @classmethod
     def get_downage_categories_for_editing_comment(cls, connection, comment_id):
         """Get the downage categories needed for editing a comment
+
+            Returns None if there is no Comment with id comment_id
         """
         
         cursor = connection.cursor(prepared=True)
@@ -312,9 +337,16 @@ class DownageCategoriesEditingExistingCommentView(MethodView):
         """
         cursor.execute(get_machine_id_of_comment_query, (comment_id,))
         row = cursor.fetchone()
+        if row is None:
+            return None
+
         machine_id = int(row[0])
         existing_comment_category = row[1]
         computed_downage_categories_dicts = MixtureModelDownageCategoryView.get_downage_categories_for_machine(connection, machine_id)
+
+        if computed_downage_categories_dicts is None:
+            cursor.close()
+            return None
 
 
         scalar_downage_categories = [x for x in PREBAKED_DOWNAGE_CATEGORY_TEXTS]
@@ -336,11 +368,4 @@ class DownageCategoriesEditingExistingCommentView(MethodView):
             })
 
         return result_as_dicts
-
-
-        
-        
-
-        
-
 
