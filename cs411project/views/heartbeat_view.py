@@ -89,7 +89,7 @@ class InsertHB(MethodView):
         connection  = g.mysql_connection.get_connection()
         cursor = connection.cursor(prepared=True)
         query = "SELECT * FROM Machine WHERE Machine.MachineID = %s"
-        cursor.execute(query,(MachineID))
+        cursor.execute(query,(machineID))
         col_names = [x[0] for x in cursor.description]
         result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, col_names))
         cursor.close()
