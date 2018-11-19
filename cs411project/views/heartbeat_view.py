@@ -1,5 +1,6 @@
 from flask import g
 from flask.views import MethodView
+from flask.json import jsonify
 from ..database.entity_serializer import EntitySerializer
 
 import json
