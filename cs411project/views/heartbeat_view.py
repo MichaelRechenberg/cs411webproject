@@ -24,10 +24,10 @@ class InsertHB(MethodView):
                 WHERE SeqID =
                     (SELECT Max(SeqID) AS M
                     FROM HeartbeatSequence
-                    WHERE MachineID = (%s)
+                    WHERE MachineID = %s
                     GROUP BY MachineID)
                     AND
-                    NetID = (%s)
+                    NetID = %s
                 """
 
 
