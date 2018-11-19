@@ -35,11 +35,11 @@ class InsertHB(MethodView):
 
 
 
-        field_names = [x[0] for x in cursor.description]
+        #field_names = [x[0] for x in cursor.description]
         #result = cursor.fetchone()
         # We use the list() to force the generator of the cursor to read the results of the query
         #   Otherwise, MySQL will complain that we closed the cursor with unread results
-        result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, field_names))
+        #result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, field_names))
 
         # if not result:
         #     query = """
