@@ -40,7 +40,7 @@ class InsertHB(MethodView):
                     VALUES (%s,%s)
                     """
             cursor.execute(query, (netID, machineID))
-        else if result[0]['LastTS'] is None:
+        elif result[0]['LastTS'] is None:
             if result[0]['FirstTS'] + result[0]['Tfail'] < CURRENT_TIMESTAMP:
                 query = """
                     INSERT INTO HeartbeatSequence 
