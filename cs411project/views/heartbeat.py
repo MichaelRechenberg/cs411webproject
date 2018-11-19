@@ -68,3 +68,4 @@ class InsertHB(MethodView):
         #         cursor.execute(query, (result[0]['SeqID']))
 
         cursor.close()
+        return jsonify({})
