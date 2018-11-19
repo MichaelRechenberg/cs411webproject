@@ -11,11 +11,15 @@ class SpecificUserView(MethodView):
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True)
                 query = "SELECT * FROM Users WHERE Users.NETID = %s"
-                cursor.execute(query,(NETID))
+                cursor.execute(query,(NetID,))
                 col_names = [x[0] for x in cursor.description]
                 result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, col_names))
                 cursor.close()
-                return jsonify(result_as_dicts)
+
+                if len(result_as_dicts) == 0:
+                    return jsonify("User with netID {0} does not exist".format(NetID)), 400
+                else:
+                    return jsonify(result_as_dicts[0])
 
 
 
