@@ -9,7 +9,6 @@ from ..nlp.downage_categories import DownageCategories
 
 import json
 
-# TODO: docstring
 class SimpleDownageCategoryStartBatchView(MethodView):
 
     # The maximum amount of comments to use for determining downage categories
@@ -22,6 +21,13 @@ class SimpleDownageCategoryStartBatchView(MethodView):
     MU = 0.001
 
     def post(self):
+         """Start a batch job to compute and store downage categories in a simple way
+
+            Compute downage categories by computing the probabilities of each token 
+                among the most recent MAX_NUM_COMMENTS_FOR_DOWNAGE_BATCH comments updated
+                across the entire lab, and then selecting the top NUM_DOWNAGE_CATEGORIES
+                tokens as the downage categories
+         """
          connection  = g.mysql_connection.get_connection()
          cursor = connection.cursor(prepared=True)
          # Persist to DB that we are starting a new batch
@@ -48,12 +54,7 @@ class SimpleDownageCategoryStartBatchView(MethodView):
          sorted_tokens, sorted_word_probs = DownageCategories.sort_tokens_by_probability(tokens, word_probs)
          lab_wide_downage_categories_tokens = sorted_tokens[:SimpleDownageCategoryStartBatchView.NUM_DOWNAGE_CATEGORIES]
 
-         # TODO: remove after debugging
-         print("===")
-         print(lab_wide_downage_categories_tokens)
-         print("===")
-
-         # Persist lab-wide results to DB
+         # Persist lab-wide results to DB, using a NULL MachineID to indicate lab-wide downage categories
          lab_wide_downage_insert_query = """
             INSERT INTO DownageCategory(BatchID, BatchRank, CategoryText, MachineID)
                 VALUES (%s, %s, %s, NULL)
@@ -73,6 +74,8 @@ class SimpleDownageCategoryStartBatchView(MethodView):
 class SimpleDownageCategoryView(MethodView):
 
     def get(self):
+         """Get the lab-wide downage categories
+         """
          connection  = g.mysql_connection.get_connection()
          cursor = connection.cursor(prepared=True)
 
@@ -99,7 +102,6 @@ class SimpleDownageCategoryView(MethodView):
 
 
 
-# TODO: docstring
 class MixtureModelDownageCategoryStartBatchView(MethodView):
 
     # The maximum amount of comments to use for determining downage categories
@@ -115,6 +117,25 @@ class MixtureModelDownageCategoryStartBatchView(MethodView):
 
 
     def post(self):
+         """Start a batch job to compute the downage categories using a simple mixture model
+
+            This endpoint also computes the downage categories in the same way as SimpleDownageCategoryStartBatchView,
+                persisting them under the same BatchID as the mixture model downage categories
+                with MachineID set to NULL
+
+            Grabs the MAX_NUM_COMMENTS_FOR_DOWNAGE_BATCH most recently updated comments
+                across the lab as our input corpus, then splits that input corpus into
+                comments made for machine M vs all other comments...for every machine M
+                that has at least one comment in the input corpus
+
+            If there are no comments for a given machine M within the input corpus,
+                then no downage categories are computed for that machine. Retrieving
+                the downage categories for M will resort to falling back to the
+                "simple" downage categories as they are computed in SimpleDownageCategoryStartBatchView
+
+            See nlp.determine_downage_categories() for an explanation on how downage categories
+                are computed
+         """
          connection  = g.mysql_connection.get_connection()
          cursor = connection.cursor(prepared=True)
 
@@ -169,7 +190,7 @@ class MixtureModelDownageCategoryStartBatchView(MethodView):
          lab_wide_downage_categories_tokens = sorted_tokens[:MixtureModelDownageCategoryStartBatchView.NUM_DOWNAGE_CATEGORIES]
 
 
-         # Persist lab-wide results to DB
+         # Persist lab-wide results to DB, using a NULL MachineID to indicate lab-wide downage categories
          lab_wide_downage_insert_query = """
             INSERT INTO DownageCategory(BatchID, BatchRank, CategoryText, MachineID)
                 VALUES (%s, %s, %s, NULL)
@@ -189,6 +210,13 @@ class MixtureModelDownageCategoryStartBatchView(MethodView):
 class MixtureModelDownageCategoryView(MethodView):
 
     def get(self, machine_id):
+         """Get the downage categories for machine machine_id from the most recently persisted downage category batch
+
+            Note that if there were no downage categories computed for the machine with id machine_id
+                (non-existent machine_id, or the specified machine had 0 comments in the input corpus
+                for MixtureModelDownageCategoryStartBatchView), then this endpoint will return
+                the "simple" downage categories as specified in SimpleDownageCategoryStartBatchView
+         """
 
          connection  = g.mysql_connection.get_connection()
          cursor = connection.cursor(prepared=True)
