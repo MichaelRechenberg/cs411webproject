@@ -31,40 +31,40 @@ class InsertHB(MethodView):
 
         cursor.execute(query, (machineID, netID))
 
-        result = list(cursor);
+        # result = list(cursor);
 
-        if not result:
-            query = """
-                    INSERT INTO HeartbeatSequence 
-                    (`NetID`, `MachineID`) 
-                    VALUES (%s,%s)
-                    """
-            cursor.execute(query, (netID, machineID))
-        elif result[0]['LastTS'] is None:
-            if result[0]['FirstTS'] + result[0]['Tfail'] < CURRENT_TIMESTAMP:
-                query = """
-                    INSERT INTO HeartbeatSequence 
-                    (`NetID`, `MachineID`) 
-                    VALUES (%s,%s)
-                    """
-                cursor.execute(query, (netID, machineID))
-            else:
-                query = """
-                    UPDATE `HeartbeatSequence` SET NumHeartbeats = NumHeartbeats + 1 WHERE SeqID = %i
-                    """
-                cursor.execute(query, (result[0]['SeqID']))
-        else:
-            if result[0]['LastTS'] + result[0]['Tfail'] < CURRENT_TIMESTAMP:
-                query = """
-                    INSERT INTO HeartbeatSequence 
-                    (`NetID`, `MachineID`) 
-                    VALUES (%s,%s)
-                    """
-                cursor.execute(query, (netID, machineID))
-            else:
-                query = """
-                    UPDATE `HeartbeatSequence` SET NumHeartbeats = NumHeartbeats + 1 WHERE SeqID = %i
-                    """
-                cursor.execute(query, (result[0]['SeqID']))
+        # if not result:
+        #     query = """
+        #             INSERT INTO HeartbeatSequence 
+        #             (`NetID`, `MachineID`) 
+        #             VALUES (%s,%s)
+        #             """
+        #     cursor.execute(query, (netID, machineID))
+        # elif result[0]['LastTS'] is None:
+        #     if result[0]['FirstTS'] + result[0]['Tfail'] < CURRENT_TIMESTAMP:
+        #         query = """
+        #             INSERT INTO HeartbeatSequence 
+        #             (`NetID`, `MachineID`) 
+        #             VALUES (%s,%s)
+        #             """
+        #         cursor.execute(query, (netID, machineID))
+        #     else:
+        #         query = """
+        #             UPDATE `HeartbeatSequence` SET NumHeartbeats = NumHeartbeats + 1 WHERE SeqID = %i
+        #             """
+        #         cursor.execute(query, (result[0]['SeqID']))
+        # else:
+        #     if result[0]['LastTS'] + result[0]['Tfail'] < CURRENT_TIMESTAMP:
+        #         query = """
+        #             INSERT INTO HeartbeatSequence 
+        #             (`NetID`, `MachineID`) 
+        #             VALUES (%s,%s)
+        #             """
+        #         cursor.execute(query, (netID, machineID))
+        #     else:
+        #         query = """
+        #             UPDATE `HeartbeatSequence` SET NumHeartbeats = NumHeartbeats + 1 WHERE SeqID = %i
+        #             """
+        #         cursor.execute(query, (result[0]['SeqID']))
 
         cursor.close()
