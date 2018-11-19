@@ -86,5 +86,6 @@ app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editComm
 app.add_url_rule('/project/heartbeat/<NetID>/<int:machineID>', view_func=InsertHB.as_view('inserthb'))
 if __name__ == '__main__':
     app.debug = True
+    app.run()
 # Set variable to application so cPanel can use our Flask app
 application = app
