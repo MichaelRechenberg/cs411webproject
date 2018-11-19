@@ -33,7 +33,11 @@ class InsertHB(MethodView):
 
         cursor.execute(query, (machineID, netID))
 
-        result = list(cursor);
+        field_names = [x[0] for x in cursor.description]
+
+        # We use the list() to force the generator of the cursor to read the results of the query
+        #   Otherwise, MySQL will complain that we closed the cursor with unread results
+        result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, field_names))
 
         # if not result:
         #     query = """
@@ -71,4 +75,4 @@ class InsertHB(MethodView):
 
         cursor.close()
 
-        return jsonify(result)
+        return jsonify(result_as_dicts)
