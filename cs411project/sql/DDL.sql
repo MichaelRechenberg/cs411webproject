@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Machine (
 CREATE TABLE IF NOT EXISTS Comments (
         CommentID INT NOT NULL AUTO_INCREMENT,
         LastModifiedTS TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        /* TODO: (Mike) change this to a FK to a DownageCategory after Basic Demo*/
+        /* The Downage Category for this Comment */
         Category VARCHAR(50) NOT NULL,
         /* The text comment made by the user */
         CommentText VARCHAR(400) NOT NULL,

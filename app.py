@@ -16,7 +16,7 @@ from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIV
 from .cs411project.views.user_view import SpecificUserView, UsersView
 from .cs411project.views.downage_category_view import SimpleDownageCategoryView, \
         SimpleDownageCategoryStartBatchView, MixtureModelDownageCategoryStartBatchView, \
-        MixtureModelDownageCategoryView
+        MixtureModelDownageCategoryView, DownageCategoriesEditingExistingCommentView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -85,6 +85,7 @@ app.add_url_rule('/project/downage-category/simple/startBatch', view_func=Simple
 app.add_url_rule('/project/downage-category/simple', view_func=SimpleDownageCategoryView.as_view('downageCategorySimpleGET'))
 app.add_url_rule('/project/downage-category/mixture/startBatch', view_func=MixtureModelDownageCategoryStartBatchView.as_view('downageCategoryMixtureStartBatch'))
 app.add_url_rule('/project/downage-category/mixture/<int:machine_id>', view_func=MixtureModelDownageCategoryView.as_view('downageCategoryMixtureGET'))
+app.add_url_rule('/project/downage-category/editing-comment/<int:comment_id>', view_func=DownageCategoriesEditingExistingCommentView.as_view('downageCategoryEditingComment'))
 
 # HTML endpoints
 app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
