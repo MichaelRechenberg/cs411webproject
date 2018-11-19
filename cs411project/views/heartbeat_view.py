@@ -85,4 +85,4 @@ class InsertHB(MethodView):
         # if len(result_as_dicts) > 0:
         #     result = result_as_dicts[0]
 
-        return null
+        return 
