@@ -14,6 +14,7 @@ from .cs411project.views.machine_view import SpecificMachineView, MachinesView
 from .cs411project.views.query_comment import QueryCommentView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
 from .cs411project.views.user_view import SpecificUserView, UsersView
+from .cs411project.views.heartbeat_view import InsertHB
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -82,7 +83,7 @@ app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
 app.add_url_rule('/comment', view_func=CommentHTMLView.as_view('commentPage'))
 app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editCommentPage'))
 
-
+app.add_url_rule('/project/heartbeat/<NetID>/<int:machineID>', view_func=InsertHB.as_view('inserthb'))
 
 # Set variable to application so cPanel can use our Flask app
 application = app
