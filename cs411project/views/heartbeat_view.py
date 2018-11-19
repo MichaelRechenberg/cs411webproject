@@ -30,12 +30,12 @@ class InsertHB(MethodView):
         #             NetID = (%s)
         #         """
 
-        query = """
-                SELECT *
-                FROM HeartbeatSequence
-                """
+        # query = """
+        #         SELECT *
+        #         FROM HeartbeatSequence
+        #         """
 
-        cursor.execute(query)
+        # cursor.execute(query)
 
 
 
