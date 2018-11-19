@@ -93,4 +93,4 @@ class InsertHB(MethodView):
         col_names = [x[0] for x in cursor.description]
         result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, col_names))
         cursor.close()
-        return jsonify(result_as_dicts)
+        return jsonify(col_names)
