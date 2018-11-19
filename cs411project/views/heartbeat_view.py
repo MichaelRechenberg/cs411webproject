@@ -5,7 +5,7 @@ from ..database.entity_serializer import EntitySerializer
 
 import json
 
-class SpecificMachineView(MethodView):
+class InsertHB(MethodView):
         def get(self,MachineID):
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True)
