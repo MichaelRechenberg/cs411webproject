@@ -16,22 +16,22 @@ class InsertHBView(MethodView):
         #query = 'INSERT INTO HeartbeatSequence(Tfail, NumHeartBeats, NetID, MachineID, FirstTS, LastTS) VALUES (%s, 1, %s, %s, SUBTIME(CURRENT_TIMESTAMP, %s), SUBTIME(CURRENT_TIMESTAMP,%s));'
         #query_args = ('00:05:00',netID,machineID, '00:10:00', '00:09:00')
         query = """
-                SELECT NetID, FirstTS, LastTS, Tfail, SeqID
-                FROM HeartbeatSequence
-                WHERE SeqID =
-                    (SELECT Max(SeqID) AS M
-                    FROM HeartbeatSequence
-                    WHERE MachineID = %s
-                    GROUP BY MachineID)
-                    AND
-                    NetID = %s
+                SELECT NetID FROM HeartbeatSequence
                 """
-
+        # SELECT NetID, FirstTS, LastTS, Tfail, SeqID
+        #         FROM HeartbeatSequence
+        #         WHERE SeqID =
+        #             (SELECT Max(SeqID) AS M
+        #             FROM HeartbeatSequence
+        #             WHERE MachineID = %s
+        #             GROUP BY MachineID)
+        #             AND
+        #             NetID = %s
 
         cursor.execute(query, (machineID, netID))
         col_names = [x[0] for x in cursor.description]
         result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, col_names))
-        # result = list(cursor);
+        #result = list(cursor);
 
         # if not result:
         #     query = """
