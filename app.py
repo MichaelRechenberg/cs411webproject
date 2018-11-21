@@ -1,12 +1,15 @@
 import os
-from flask import g, Flask, request
+from flask import g, Flask, request, session
 from flask_cors import CORS
+from flask_session import Session
+
 
 
 from .cs411project.database.database_connection import MySQLConnection
 
 from .cs411project.views.main_view import mainView
 from .cs411project.views.comment_html_view import CommentHTMLView
+from .cs411project.views.login_html_view import loginView, loginUser, logoutUser
 from .cs411project.views.comment_view import CommentChangeView, CommentView
 from .cs411project.views.edit_view import editView
 from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
@@ -20,16 +23,19 @@ from .cs411project.views.user_view import SpecificUserView, UsersView
 app = Flask(__name__, template_folder="cs411project/templates", static_folder="cs411project/templates/static")
 
 # Enable CORS across all requests (later this can be on a per URL/regex level)
+app.secret_key = os.urandom(24)
+app.config['SESSION_TYPE'] = 'filesystem'
 CORS(app)
+Session(app)
 
 # Any global configuration (e.g. database configurations, before_request handlers)
 app.config.update(
     # User to login to the MySQL database with
-    MYSQL_USER = os.environ['CS411_MYSQL_USER'],
+    MYSQL_USER = 'foo', #os.environ['CS411_MYSQL_USER'],
     # Password to use to login to the MySQL database with
-    MYSQL_PASSWORD = os.environ['CS411_MYSQL_PASSWORD'],
+    MYSQL_PASSWORD = 'foo', #os.environ['CS411_MYSQL_PASSWORD'],
     # Name of database to connect to by default
-    MYSQL_DATABASE = os.environ['CS411_MYSQL_DATABASE']
+    MYSQL_DATABASE = 'foo' #os.environ['CS411_MYSQL_DATABASE']
 )
 
 
@@ -77,10 +83,15 @@ app.add_url_rule('/project/comment/insert', view_func=CommentView.as_view('comme
 app.add_url_rule('/project/comment/update/<CommentID>', view_func=CommentChangeView.as_view('commentChange'))
 app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))
 
+# Login API
+app.add_url_rule('/login/user', view_func=loginUser.as_view('login'))
+app.add_url_rule('/logout', view_func=logoutUser.as_view('logout'))
+
 # HTML endpoints
 app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
 app.add_url_rule('/comment', view_func=CommentHTMLView.as_view('commentPage'))
 app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editCommentPage'))
+app.add_url_rule('/login', view_func=loginView.as_view('loginPage'))
 
 
 

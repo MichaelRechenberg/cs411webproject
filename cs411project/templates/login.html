@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>UIUC VR Lab</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script src="../static/scripts/login.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/style/login.css"  />
+    </head>
+    <body>
+        <div class="topBanner">
+            <img style="display: inline; margin-right: 10px" width="29px;" height="45px;" src="./static/images/blockLogo.png" alt="block I Logo">
+            <h1 style="display: inline; padding-top: 2px">VR Lab Availability</h1>
+        </div>
+            <div id="inputForm">
+                <h1>VR Machine Login</h1>
+                <form id="loginForm" action="http://127.0.0.1:8080/login/user" method="post">
+                    <div class="form-group">
+                            <label for="NetId">NetID:</label>
+                            <input id="NetId" class="form-control" name="NetId" value="" maxlength="25">
+                            <p style="color: red;">{{errorMessage}}</p>
+                            <label for="MachineID">MachineID:</label>
+                            <input type="text" class="form-control" id="MachineID" name="MachineID">
+                    </div>
+                    <input type="submit" class="btn btn-info" value="Login">
+                </form>
+                <button id="expandCreateUser" class="btn btn-link expandCreateUser" type="button" style="margin-left: 10px;">New User?</button>
+                <div class="content">
+                        <label for="name">Name:</label>
+                        <input  id="name" class="form-control" name="name" value="" maxlength="40">
+                        <label for="createNetId">Please enter your NetID below:</label>
+                        <input  id="createNetId" class="form-control" name="NetId" value="" maxlength="25">
+                        <button id="createUser" class="btn btn-primary" type="button" style="margin: 5px;" onclick="createUser()">Create User</button>
+                </div>
+            </div>
+            <script>
+                    var coll = document.getElementsByClassName("expandCreateUser");
+                    var i;
+                    
+                    for (i = 0; i < coll.length; i++) {
+                      coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight){
+                          content.style.maxHeight = null;
+                        } else {
+                          content.style.maxHeight = content.scrollHeight + "px";
+                        } 
+                      });
+                    }
+            </script>
+    </body>
+</html>

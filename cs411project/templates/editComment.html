@@ -21,7 +21,7 @@
                     success: function(result) {
                         document.getElementById("commentId").value = result["CommentID"];
                         document.getElementById("Computer Chosen").innerHTML = "Update comment on PC#" + result["MachineID"];
-                        // document.getElementById("MachineId").value = result["MachineID"];
+                         document.getElementById("MachineId").value = result["MachineID"];
                         document.getElementById("NetId").value = result["AuthorNetID"];
                         document.getElementById("HardwareId").value = result["HardwareID"];
                         document.getElementById("comment").value = result["CommentText"];  
@@ -40,7 +40,7 @@
         </script>
     </head>
     <body>  
-        <h1 id="Computer Chosen">Comment on PC</h1>
+        <h1 id="Computer Chosen">Update comment on PC #<span id="MachineId"></span></h1>
             <div id="inputForm">
                 <form id="commentForm" action="/testURL">
                     <div class="form-group">
