@@ -87,4 +87,15 @@ class CommentView(MethodView):
                 # Only return one comment object
                 return jsonify(result_as_dicts[0] if len(result_as_dicts) > 0 else {})
 
-                
+class AllDownageCategoriesView(MethodView):
+        # Get all the distinct downage categories present in all existing comments
+        def get(self):
+                connection = g.mysql_connection.get_connection()
+                cursor = connection.cursor()
+                query = "SELECT DISTINCT Category FROM Comments"
+                cursor.execute(query)
+                all_downage_categories = [x[0] for x in cursor]
+                cursor.close()
+                return jsonify(all_downage_categories)
+
+
