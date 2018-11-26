@@ -67,7 +67,7 @@ app.add_url_rule('/project/users/all', view_func=UsersView.as_view('users'))
 
 # Machine API
 app.add_url_rule('/project/machines/all',view_func=MachinesView.as_view('machines'))
-app.add_url_rule('/project/heartbeat/<MachineID>', view_func=SpecificMachineView.as_view('specificMachine'))
+app.add_url_rule('/project/machines/<MachineID>', view_func=SpecificMachineView.as_view('specificMachine'))
 app.add_url_rule('/project/machine/availability', view_func=BulkMachineAvailabilityView.as_view('bulk_machine_avail'))
 app.add_url_rule('/project/machine/availability/<int:machineID>', view_func=MachineAvailabilityView.as_view('machine_avail'))
 

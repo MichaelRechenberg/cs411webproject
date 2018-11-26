@@ -6,11 +6,8 @@ from ..database.entity_serializer import EntitySerializer
 import json
 
 class HBView(MethodView):
-	def get(self,NetID,MachineID):
+	def post(self,NetID,MachineID):
 		cursor = g.mysql_connection.get_connection().cursor(prepared=True)
-		#curosr = connection.cursor(prepared=True)
-		#cursor = connectoin.cursor()
-		#query = "SELECT * FROM Machine WHERE MachineID = %s"
 		query = """SELECT NetID,SeqID
                            FROM HeartbeatSequence
                            WHERE SeqID IN 
@@ -26,24 +23,20 @@ class HBView(MethodView):
                                (LastTS IS NULL AND NOT (FirstTS + Tfail < CURRENT_TIMESTAMP)))"""
 		cursor.execute(query,(MachineID,NetID,))
 		result = list(cursor)
-		#cursor.close()
+		#Find the most recent heartbeat sequence with given NetID and MachineID, and its LastTS + Tfail should be less than CURRENT_TIMESTAMP, if LastTS is NULL, FirstTS + Tfail should be less than CURRENT_TIMESTAMP, meaning this sequence is within the update time window. If we didn't find such sequence (result == NULL), we will go ahead and insert a new sequnce, otherwise we will update the returned sequence. 
 		if not result:
+			cursor.execute("UPDATE Machine SET NetIDofLastUsed = %s WHERE MachineID = %s", (NetID, MachineID,))
 			query2 = "INSERT INTO HeartbeatSequence(NetID, MachineID) Values (%s, %s)"
 			cursor.execute(query2, (NetID, MachineID,))
 			g.mysql_connection.get_connection().commit()
 			cursor.close()
-			#connection.close()
 			return jsonify("inserted new row")
 		else:
+			cursor.execute("UPDATE Machine SET NetIDofLastUsed = %s WHERE MachineID = %s", (NetID, MachineID,))
 			query2 = "UPDATE HeartbeatSequence SET NumHeartbeats = NumHeartbeats + 1 WHERE SeqID = %s"
 			cursor.execute(query2,(result[0][1],))
 			g.mysql_connection.get_connection().commit()
 			cursor.close()
-			#connection.close()
 			return jsonify(result)
-		#col_names = [x[0] for x in cursor.description]
-		#result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, col_names))
-		#cursor.close()
-		#return jsonify(result)
 
 
