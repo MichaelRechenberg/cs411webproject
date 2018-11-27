@@ -13,9 +13,11 @@ from .cs411project.views.machine_availability_view import BulkMachineAvailabilit
 from .cs411project.views.machine_view import SpecificMachineView, MachinesView
 from .cs411project.views.query_comment import QueryCommentView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
-from .cs411project.views.user_view import SpecificUserView, UsersView
+
+from .cs411project.views.user_view import SpecificUserView, UsersView, NewUserView
 from .cs411project.views.hbtest_view import HBView
 from .cs411project.views.ajax_view import AjaxView
+
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -64,6 +66,7 @@ def after_request_cleanup(error):
 # User API
 app.add_url_rule('/project/users/<NetID>', view_func=SpecificUserView.as_view('specificUser'))
 app.add_url_rule('/project/users/all', view_func=UsersView.as_view('users'))
+app.add_url_rule('/project/users/new', view_func=NewUserView.as_view('newUser'))
 
 # Machine API
 app.add_url_rule('/project/machines/all',view_func=MachinesView.as_view('machines'))
@@ -84,6 +87,6 @@ app.add_url_rule('/comment', view_func=CommentHTMLView.as_view('commentPage'))
 app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editCommentPage'))
 
 app.add_url_rule('/testingajax', view_func=AjaxView.as_view('testajax'))
-app.add_url_rule('/project/hbtest/<NetID>/<MachineID>', view_func=HBView.as_view('testhb'))
+app.add_url_rule('/project/hb/<NetID>/<MachineID>', view_func=HBView.as_view('hb'))
 # Set variable to application so cPanel can use our Flask app
 application = app
