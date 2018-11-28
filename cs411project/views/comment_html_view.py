@@ -1,6 +1,6 @@
 # Adam's Comment view
 from flask.views import View
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, session
 
 class CommentHTMLView(View):
 

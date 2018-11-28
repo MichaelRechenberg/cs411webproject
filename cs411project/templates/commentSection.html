@@ -26,8 +26,9 @@
                     if (resolution < 2){
                         data['IsResolved'] = Number(resolution);
                     }
-                    displayComments(data);
-                }                
+                    displayComments(data, "{{netId}}");
+                }
+                $(document).ready(displayComments({}, "{{netId}}"));             
         </script>
     </head>
     <body>
@@ -36,7 +37,8 @@
             <h1 style="display: inline; padding-top: 2px">VR Lab Availability</h1>
             <div  style="float: right;">
                 <p style="font-weight: bold;">Logged in as {{netId}}</p>
-                <a class="btn btn-link" style="color: orange; padding-top: 0px; margin-top: 0px;" href="{{url_for('logout')}}" type="button">Logout</a>            </div>
+                <a class="btn btn-link" style="fontWeight: bold; color: orange; padding-top: 0px; margin-top: 0px;" href="{{url_for('logout')}}">Logout</a>
+            </div>
         </div>
         <div class="filterParams">
             <h1 id="commentTitle"> Comment Section </h1>

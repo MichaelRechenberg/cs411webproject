@@ -1,6 +1,4 @@
-$(document).ready(displayComments({}));
-
-function displayComments(filters) {
+function displayComments(filters, name) {
     $("#commentList").html("");
     $.ajax({
         method: "POST",
@@ -23,7 +21,7 @@ function displayComments(filters) {
                 if(data[i]['IsResolved'] == '1'){
                     list_html+="<p style='font-weight: bold; color: green' class='commentInfo commentStatus'> Resolved <p>";
                 }
-               if(data[i]['AuthorNetID'] == "hop2"){
+               if(data[i]['AuthorNetID'] == name){
                     var editURL = "http://teamrocket.web.illinois.edu/comment/edit/" + data[i]['CommentID'];
                     list_html += ("<a class='btn btn-warning updateButton' href='" + editURL + "'> Update Comment <a>");
                }

@@ -9,7 +9,7 @@ from .cs411project.database.database_connection import MySQLConnection
 
 from .cs411project.views.main_view import mainView
 from .cs411project.views.comment_html_view import CommentHTMLView
-from .cs411project.views.login_html_view import loginView, loginUser, logoutUser
+from .cs411project.views.login_html_view import loginView, loginUser, logoutUser, loginError
 from .cs411project.views.comment_view import CommentChangeView, CommentView
 from .cs411project.views.edit_view import editView
 from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
@@ -84,14 +84,17 @@ app.add_url_rule('/project/comment/update/<CommentID>', view_func=CommentChangeV
 app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))
 
 # Login API
-app.add_url_rule('/login/user', view_func=loginUser.as_view('login'))
+app.add_url_rule('/login/<NetId>', view_func=loginUser.as_view('login'))
 app.add_url_rule('/logout', view_func=logoutUser.as_view('logout'))
+
 
 # HTML endpoints
 app.add_url_rule('/home', view_func=mainView.as_view('mainPage'))
 app.add_url_rule('/comment', view_func=CommentHTMLView.as_view('commentPage'))
 app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editCommentPage'))
 app.add_url_rule('/login', view_func=loginView.as_view('loginPage'))
+app.add_url_rule('/login/error', view_func=loginError.as_view('loginError'))
+
 
 
 

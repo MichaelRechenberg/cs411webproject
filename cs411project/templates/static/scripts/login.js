@@ -1,35 +1,39 @@
 function loginUser(){
-    var MachineID = Number(document.getElementById("MachineId").value);
+    var MachineID = Number(document.getElementById("MachineID").value);
     var NetId = document.getElementById("NetId").value;
-
     var data = {};
 		    data['NetId'] = NetId;
 		    data['MachineID'] = MachineID;
             $.ajax({
-                method: "POST",
-                url: 'http://127.0.0.1:8080/login/user',
-                dataType: 'json',
-                data: JSON.stringify(data),
-                contentType: "application/json",
+                method: "GET",
+                url: 'http://teamrocket.web.illinois.edu/project/users/' + NetId,
                 success: function(data, textStatus, xhr) {
                     if(xhr.status == 200){
-
+                        console.log(xhr.status)
+                        window.location.replace("http://127.0.0.1:8080/login/" + NetId);
                     }
 
                 },
                 complete: function(textStatus, xhr) {
                     if(xhr.status == 400){
-
+                        console.log(xhr.status)
+                        window.location.replace("http://127.0.0.1:8080/login/error");
                     }
                 } 
             });
+            window.location.replace("http://127.0.0.1:8080/login/error");
+
     }
 function createUser(){
     var NetId = document.getElementById("createNetId").value;
-    var name = document.getElementById("name").value;
+    var FirstName = document.getElementById("FirstName").value;
+    var LastName = document.getElementById("LastName").value;
+    var isTA = Number($("input[name=isTA]:checked").val());
     var data = {};
-    data['AuthorNetID'] = NetId;
-    data['Name'] = name;
+    data['NetID'] = NetId;
+    data['isTA'] = isTA;
+    data['FirstName'] =FirstName;
+    data['LastName'] = LastName;
     $.ajax({
         method: "POST",
         url: 'http://teamrocket.web.illinois.edu/project/users/new',
@@ -37,10 +41,6 @@ function createUser(){
         data: JSON.stringify(data),
         contentType: "application/json"
     }).then(function(result) {
-        $.ajax({
-            method: "POST",
-            url: 'http://teamrocket.web.illinois.edu/login',
-            data: data,
-        })
+        window.location.replace("http://127.0.0.1:8080/login/" + NetId);
     });
 }
