@@ -2,6 +2,13 @@
 MACHINE_STATUS_BROKEN = 0
 MACHINE_STATUS_ALIVE = 1
 
+# The "prebaked" downage categories
+PREBAKED_DOWNAGE_CATEGORY_TEXTS = [
+    'Software Problem',
+    'Hardware Problem',
+    'Machine Problem'
+]
+
 # TODO: remove this and actually query locations after basic demo
 # x should be within [0-3] and y should be within [0-8]
 STUB_LOCATION_DICT = {

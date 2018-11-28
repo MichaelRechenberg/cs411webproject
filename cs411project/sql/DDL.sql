@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS Comments;
 DROP TABLE IF EXISTS Hardware;
 DROP TABLE IF EXISTS Machine;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS DownageCategory;
+DROP TABLE IF EXISTS DownageCategoryBatch;
 
 
 CREATE TABLE IF NOT EXISTS Users (
@@ -34,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Machine (
 CREATE TABLE IF NOT EXISTS Comments (
         CommentID INT NOT NULL AUTO_INCREMENT,
         LastModifiedTS TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        /* TODO: (Mike) change this to a FK to a DownageCategory after Basic Demo*/
+        /* The Downage Category for this Comment */
         Category VARCHAR(50) NOT NULL,
         /* The text comment made by the user */
         CommentText VARCHAR(400) NOT NULL,
@@ -68,5 +70,23 @@ CREATE TABLE IF NOT EXISTS HeartbeatSequence (
         FOREIGN KEY(NetID) REFERENCES Users(NetID),
         FOREIGN KEY(MachineID) REFERENCES Machine(MachineID),
         PRIMARY KEY(SeqID)
+);
+
+CREATE TABLE IF NOT EXISTS DownageCategoryBatch (
+        BatchID INT NOT NULL AUTO_INCREMENT,
+        CompletedTS TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(BatchID)
+);
+
+CREATE TABLE IF NOT EXISTS DownageCategory (
+        DownageCategoryID INT NOT NULL AUTO_INCREMENT,
+        BatchID INT NOT NULL,
+        BatchRank INT NOT NULL,
+        CategoryText VARCHAR(128) NOT NULL,
+        /* A NULL MachineID means that this DownageCategory is for lab-wide downage categories */
+        MachineID INT,
+        PRIMARY KEY (DownageCategoryID),
+        FOREIGN KEY(BatchID) REFERENCES DownageCategoryBatch(BatchID),
+        FOREIGN KEY(MachineID) REFERENCES Machine(MachineID)
 );
 
