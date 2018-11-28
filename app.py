@@ -7,7 +7,7 @@ from .cs411project.database.database_connection import MySQLConnection
 
 from .cs411project.views.main_view import mainView
 from .cs411project.views.comment_html_view import CommentHTMLView
-from .cs411project.views.comment_view import CommentChangeView, CommentView
+from .cs411project.views.comment_view import CommentChangeView, CommentView, AllDownageCategoriesView
 from .cs411project.views.edit_view import editView
 from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
 from .cs411project.views.machine_view import SpecificMachineView, MachinesView
@@ -82,6 +82,7 @@ app.add_url_rule('/project/comment/<comment_id>', view_func=CommentView.as_view(
 app.add_url_rule('/project/comment/insert', view_func=CommentView.as_view('comment'))
 app.add_url_rule('/project/comment/update/<CommentID>', view_func=CommentChangeView.as_view('commentChange'))
 app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))
+app.add_url_rule('/project/comment/all-downage-categories', view_func=AllDownageCategoriesView.as_view('getAllDownageCategories'))
 
 # Downage Category API
 app.add_url_rule('/project/downage-category/simple/startBatch', view_func=SimpleDownageCategoryStartBatchView.as_view('downageCategorySimpleStartBatch'))
