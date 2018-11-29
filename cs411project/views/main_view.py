@@ -1,7 +1,10 @@
 from flask.views import View
-from flask import Flask, render_template
+from flask import Flask, render_template, session, redirect, url_for
 
 class mainView(View):
 
     def dispatch_request(self):
-        return render_template('mainView.html')
+        if('netId' in session):
+            return render_template('mainView.html', netId=session['netId'])
+        else:
+            return redirect(url_for('loginPage'))

@@ -21,7 +21,7 @@
                     success: function(result) {
                         document.getElementById("commentId").value = result["CommentID"];
                         document.getElementById("Computer Chosen").innerHTML = "Update comment on PC#" + result["MachineID"];
-                        // document.getElementById("MachineId").value = result["MachineID"];
+                         document.getElementById("MachineId").value = result["MachineID"];
                         document.getElementById("NetId").value = result["AuthorNetID"];
                         document.getElementById("HardwareId").value = result["HardwareID"];
                         document.getElementById("comment").value = result["CommentText"];  
@@ -39,8 +39,16 @@
             });
         </script>
     </head>
-    <body>  
-        <h1 id="Computer Chosen">Comment on PC</h1>
+    <body>
+        <div class="topBanner">
+            <img style="display: inline; margin-right: 10px" width="29px;" height="45px;" src="../../static/images/blockLogo.png" alt="block I Logo">
+            <h1 style="display: inline; padding-top: 2px">VR Lab Availability</h1>
+            <div style="float: right;">
+                <p style="font-weight: bold;">Logged in as {{netId}}</p>
+                <a class="btn btn-link" style="fontWeight: bold; color: orange; padding-top: 0px; margin-top: 0px;" href="{{url_for('logout')}}">Logout</a>
+            </div>
+        </div>  
+        <h1 id="Computer Chosen">Update comment on PC #<span id="MachineId"></span></h1>
             <div id="inputForm">
                 <form id="commentForm" action="/testURL">
                     <div class="form-group">
@@ -52,15 +60,17 @@
                             <input type="text" class="form-control" id="NetId" name="NetId">
                             <label for="HardwareId">HardwareId(Optional):</label>
                             <input type="text" class="form-control" id="HardwareId" name="HardwareId">
-                            <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Machine Problem">Machine Problem</label>
-                            <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Hardware Problem">Hardware Problem</label>
-                            <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Software Problem">Sofware Problem</label>
-                            <p></p>
+                            <div id="categoryChecks">
+                                <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Machine Problem">Machine Problem</label>
+                                <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Hardware Problem">Hardware Problem</label>
+                                <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Software Problem">Sofware Problem</label>
+                                <p></p>
+                            </div>
                             <label for="comment">Comment:</label>
                             <textarea class="form-control" rows="5" id="comment" name="Comment"></textarea>
                             <label class="checkbox-inline" style="margin: 5px;"><input type="checkbox" id="isResolved" name="resolved">Issue resolved?</label>
-                            <button type="button" style="margin: 5px;" onclick="updateComment()" class="btn btn-default">Update Comment</button>
-                            <button type="button" style="margin: 5px;" onclick="deleteComment()" class="btn btn-default">Delete Comment</button>
+                            <button type="button" style="margin: 5px;" onclick="updateComment()" class="btn btn-info">Update Comment</button>
+                            <button type="button" style="margin: 5px;" onclick="deleteComment()" class="btn btn-danger">Delete Comment</button>
                     </div>
                 </form>
             </div>
