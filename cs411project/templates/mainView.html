@@ -32,10 +32,10 @@
                                 data: JSON.stringify(data),
                                 contentType: "application/json"
                             }).then(function(result) {
-                    alert("Successfully added comment!");
-                        }).catch(function(err){
-                    console.log(err);
-                    });
+                                alert("Successfully added comment!");
+                            }).catch(function(err){
+                                console.log(err);
+                            });
                 }
                 $(document).ready(displayComments({}, '{{netId}}'));
                 $(document).ready(getCategories());

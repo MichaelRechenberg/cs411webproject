@@ -12,6 +12,11 @@ class loginError(View):
         def dispatch_request(self):
                 return render_template('login.html', errorMessage="User not found")
 
+class loginMachineError(View):
+
+        def dispatch_request(self):
+                return render_template('login.html', errorMessage="Machine ID does not exist")
+
 class logoutUser(View):
 
         def dispatch_request(self):

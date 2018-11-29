@@ -21,7 +21,6 @@
                     success: function(result) {
                         document.getElementById("commentId").value = result["CommentID"];
                         document.getElementById("Computer Chosen").innerHTML = "Update comment on PC#" + result["MachineID"];
-                         document.getElementById("MachineId").value = result["MachineID"];
                         document.getElementById("NetId").value = result["AuthorNetID"];
                         document.getElementById("HardwareId").value = result["HardwareID"];
                         document.getElementById("comment").value = result["CommentText"];  

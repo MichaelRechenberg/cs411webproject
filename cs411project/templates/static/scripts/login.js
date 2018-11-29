@@ -9,8 +9,18 @@ function loginUser(){
                 url: 'http://teamrocket.web.illinois.edu/project/users/' + NetId,
                 success: function(data, textStatus, xhr) {
                     if(xhr.status == 200){
-                        console.log(xhr.status)
-                        window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId);
+                        $.ajax({
+                            method: "GET",
+                            url: 'http://teamrocket.web.illinois.edu/project/machine/' + MachineID,
+                            success: function(data, textStatus, xhr) {
+                                if(data.length > 0){
+                                    window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId);
+                                }
+                                else {
+                                    window.location.replace("http://teamrocket.web.illinois.edu/login/MachineError");
+                                }
+                            }
+                        });
                     }
 
                 },

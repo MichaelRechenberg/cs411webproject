@@ -10,7 +10,7 @@ from .cs411project.database.database_connection import MySQLConnection
 from .cs411project.views.main_view import mainView
 from .cs411project.views.comment_html_view import CommentHTMLView
 from .cs411project.views.comment_view import CommentChangeView, CommentView, AllDownageCategoriesView
-from .cs411project.views.login_html_view import loginView, loginUser, logoutUser, loginError
+from .cs411project.views.login_html_view import loginView, loginUser, logoutUser, loginError, loginMachineError
 from .cs411project.views.comment_view import CommentChangeView, CommentView
 from .cs411project.views.edit_view import editView
 from .cs411project.views.machine_availability_view import BulkMachineAvailabilityView, MachineAvailabilityView
@@ -109,6 +109,7 @@ app.add_url_rule('/comment', view_func=CommentHTMLView.as_view('commentPage'))
 app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editCommentPage'))
 app.add_url_rule('/login', view_func=loginView.as_view('loginPage'))
 app.add_url_rule('/login/error', view_func=loginError.as_view('loginError'))
+app.add_url_rule('/login/MachineError', view_func=loginMachineError.as_view('loginMachineError'))
 
 
 app.add_url_rule('/testingajax', view_func=AjaxView.as_view('testajax'))
