@@ -26,6 +26,7 @@ class logoutUser(View):
 
 class loginUser(View):
 
-        def dispatch_request(self, NetId):
+        def dispatch_request(self, NetId, isTA):
                 session['netId'] = NetId
+                session['isTA'] = isTA
                 return redirect(url_for('mainPage'))

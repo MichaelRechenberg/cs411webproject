@@ -14,7 +14,7 @@ function loginUser(){
                             url: 'http://teamrocket.web.illinois.edu/project/machine/' + MachineID,
                             success: function(data, textStatus, xhr) {
                                 if(data.length > 0){
-                                    window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId);
+                                    window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId + "/" + data["isTA"].toString);
                                 }
                                 else {
                                     window.location.replace("http://teamrocket.web.illinois.edu/login/MachineError");

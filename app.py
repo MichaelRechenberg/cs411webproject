@@ -99,7 +99,7 @@ app.add_url_rule('/project/downage-category/mixture/<int:machine_id>', view_func
 app.add_url_rule('/project/downage-category/editing-comment/<int:comment_id>', view_func=DownageCategoriesEditingExistingCommentView.as_view('downageCategoryEditingComment'))
 
 # Login API
-app.add_url_rule('/login/<NetId>', view_func=loginUser.as_view('login'))
+app.add_url_rule('/login/<NetId>/<isTA>', view_func=loginUser.as_view('login'))
 app.add_url_rule('/logout', view_func=logoutUser.as_view('logout'))
 
 
