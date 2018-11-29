@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Hardware (
 CREATE TABLE IF NOT EXISTS Machine (
         MachineID INT NOT NULL,
         /* Can be NULL b/c it could be the case that no one has used
-            this machine yet */  
+            this machine yet */
         NetIDofLastUsed VARCHAR(20),
         /* 0 for BROKEN, 1 for ALIVE */
         Status INT NOT NULL,
@@ -90,3 +90,11 @@ CREATE TABLE IF NOT EXISTS DownageCategory (
         FOREIGN KEY(MachineID) REFERENCES Machine(MachineID)
 );
 
+
+CREATE TABLE IF NOT EXISTS MachineLocation (
+				MachineID INT NOT NULL,
+				X_COORDINATE INT NOT NULL,
+				Y_COORDINATE INT NOT NULL,
+				FOREIGN KEY(MachineID) REFERENCES Machine(MachineID),
+				PRIMARY KEY(MachineID)
+);
