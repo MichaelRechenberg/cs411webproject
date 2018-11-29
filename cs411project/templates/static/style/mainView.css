@@ -1,15 +1,29 @@
+.topBanner {
+    background-color: #13294b;
+    color: orange;
+    margin-bottom: 10px;
+    padding: 10px;
+    padding-top: 0px;
+}
 .column {
     float: left;
-    height: 40px;
-    width: 40px;
+    height: 80px;
+    width: 80px;
+    padding: 10px;
+}
+.column2 {
+    float: left;
+    height: 80px;
+    width: 80px;
     padding: 10px;
     border: 2px solid black;
 }
 .computerGrid {
     left: 5%;
-    width: 800px;
+    width: 720px;
     margin: 0 auto;
-    margin-left: 50px;
+    margin-left: 40px;
+    border: 2px solid black;
 }
 #inputForm {
     width: 600px;
@@ -17,4 +31,66 @@
 }
 body {
     overflow: scroll;
+}
+#create_comment_section {
+    width: 720px;
+    padding: 5px;
+    margin-left: 40px;
+    margin-top: 40px;
+    border: 2px solid black;
+}
+.left-content {
+    float: left;
+    overflow: hidden;
+}
+.right-content {
+    float: left;
+    margin-left: 40px;
+    padding-right: 40px;
+    width: 30%;
+    overflow: hidden;
+}
+.commentViewBox {
+    border: 2px solid black;
+    padding: 6px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+.commentBox {
+    background-color: #ddd;
+    padding: 2px;
+    margin-left: 6px;
+    margin-top: 10px;
+    border-left: 6px solid black;
+}
+.commentInfo {
+    padding: 2px;
+    margin: 2px;
+}
+.commentAuthor {
+    font-weight: bold;
+    color: #13294b;
+    display: inline;
+}
+.commentMachine {
+    color: #666;
+    float: right;
+    padding-top: 0px;
+    font-size: 12px;
+}
+.commentStatus {
+    display: inline;
+    font-size: 12px;
+}
+.commentCategory {
+    color: #666;
+    float: right;
+    font-size: 12px;
+}
+.updateButton {
+    float: right;
+    font-size: 12px;
+}
+.viewComments {
+    float: right;
 }

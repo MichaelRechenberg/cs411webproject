@@ -26,25 +26,42 @@
                     if (resolution < 2){
                         data['IsResolved'] = Number(resolution);
                     }
-                    displayComments(data);
-                }                
+                    displayComments(data, "{{netId}}");
+                }
+                $(document).ready(displayComments({}, "{{netId}}"));             
         </script>
     </head>
     <body>
-        <h1 id="commentTitle"> Comment Section </h1>
-        <div>
-            <h3>Filter Comments By:</h3>
-            <label for="MachineId">MachineID:</label>
-            <input  id="MachineId" class="form-control" name="MachineId" value="">
-            <label for="NetId">Author:</label>
-            <input type="text" class="form-control" id="NetId" name="NetId">
-            <label for="NetId">Status:</label>
-            <select id="status" name="isResolved">
-                <option value="2">Either</option>
-                <option value="0">Not Resolved</option>
-                <option value="1">Resolved</option>
-            </select>
-            <button id="createComment" type="button" style="margin: 5px;" onclick="filterComments()" class="btn btn-default" value="Submit">Filter</button>
+        <div class="topBanner">
+            <img style="display: inline; margin-right: 10px" width="29px;" height="45px;" src="./static/images/blockLogo.png" alt="block I Logo">
+            <h1 style="display: inline; padding-top: 2px">VR Lab Availability</h1>
+            <div  style="float: right;">
+                <p style="font-weight: bold;">Logged in as {{netId}}</p>
+                <a class="btn btn-link" style="fontWeight: bold; color: orange; padding-top: 0px; margin-top: 0px;" href="{{url_for('logout')}}">Logout</a>
+            </div>
+        </div>
+        <div class="filterParams">
+            <h1 id="commentTitle"> Comment Section </h1>
+            <div>
+                <h3>Filter Comments By:</h3>
+                <div class="filterBlock">
+                    <label for="MachineId">MachineID:</label>
+                    <input  id="MachineId" class="form-control filterInput" name="MachineId" value="">
+                </div>
+                <div class="filterBlock">
+                    <label for="NetId">Author:</label>
+                    <input type="text" class="form-control filterInput" id="NetId" name="NetId">
+                </div>
+                <div class="filterBlock">
+                    <label for="NetId">Status:</label>
+                    <select class="filterInput" id="status" name="isResolved">
+                        <option value="2">Either</option>
+                        <option value="0">Not Resolved</option>
+                        <option value="1">Resolved</option>
+                    </select>
+                </div>
+                <button id="createComment" type="button" style="margin: 5px;" onclick="filterComments()" class="btn btn-default" value="Submit">Filter</button>
+            </div>
         </div>
         <div id="commentList">
 

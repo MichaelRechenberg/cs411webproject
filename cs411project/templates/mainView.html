@@ -15,37 +15,46 @@
                     var MachineID = Number(document.getElementById("MachineId").value);
                     var HardwareID = document.getElementById("HardwareId").value;
                     var NetId = document.getElementById("NetId").value;
-                    var Comment = document.getElementById("Comment").value;
+                    var CommentText = document.getElementById("Comment").value;
                     var Category = $("input[name=Category]:checked").val();
-
-
-		    var data = {};
-		    data['AuthorNetID'] = NetId;
-		    data['MachineID'] = MachineID;
-		    data['CommentText'] = Comment;
-		    data['Category'] = Category;
-		    if (HardwareID) {
-			data['HardwareID'] = Number(HardwareID);
+                    var data = {};
+                    data['AuthorNetID'] = NetId;
+                    data['MachineID'] = MachineID;
+                    data['CommentText'] = CommentText;
+                    data['Category'] = Category;
+                    if (HardwareID) {
+                        data['HardwareID'] = Number(HardwareID);
                     }
-
-                    $.ajax({
-                        method: "POST",
-                        url: 'http://teamrocket.web.illinois.edu/project/comment/insert',
-                        dataType: 'json',
-                        data: JSON.stringify(data),
-                        contentType: "application/json"
-                    }).then(function(result) {
-			alert("Successfully added comment!");
-	            }).catch(function(err){
-			console.log(err);
-		    });
+                            $.ajax({
+                                method: "POST",
+                                url: 'http://teamrocket.web.illinois.edu/project/comment/insert',
+                                dataType: 'json',
+                                data: JSON.stringify(data),
+                                contentType: "application/json"
+                            }).then(function(result) {
+                    alert("Successfully added comment!");
+                        }).catch(function(err){
+                    console.log(err);
+                    });
                 }
+                $(document).ready(displayComments({}, '{{netId}}'));
+                $(document).ready(getCategories());
         </script>
+        
     </head>
     <body>
-        <h1>VR Lab Availability</h1>
+        <div class="topBanner">
+            <img style="display: inline; margin-right: 10px" width="29px;" height="45px;" src="./static/images/blockLogo.png" alt="block I Logo">
+            <h1 style="display: inline; padding-top: 2px">VR Lab Availability</h1>
+            <div  style="float: right;">
+                <p style="font-weight: bold;">Logged in as {{netId}}</p>
+                <a class="btn btn-link" style="fontWeight: bold; color: orange; padding-top: 0px; margin-top: 0px;" href="{{url_for('logout')}}">Logout</a>
+            </div>
+        </div>
+    <div class="left-content">
+        <h1 style="margin-left: 35px;">Machine Layout</h1>
         <div class="computerGrid">
-          <div class = "row"> 
+            <div class = "row"> 
                     <div id="(0,0)" class="column" onclick="choosePC('(0,0)')"></div>
                     <div id="(0,1)" class="column" onclick="choosePC('(0,1)')"></div>
                     <div id="(0,2)" class="column" onclick="choosePC('(0,2)')"></div>
@@ -54,8 +63,7 @@
                     <div id="(0,5)" class="column" onclick="choosePC('(0,5)')"></div>
                     <div id="(0,6)" class="column" onclick="choosePC('(0,6)')"></div>
                     <div id="(0,7)" class="column" onclick="choosePC('(0,7)')"></div>
-                    <div id="(0,8)" class="column" onclick="choosePC('(0,8)')"></div>
-           </div>
+            </div>
             <div class = "row"> 
                     <div id="(1,0)" class="column" onclick="choosePC('(1,0)')"></div>
                     <div id="(1,1)" class="column" onclick="choosePC('(1,1)')"></div>
@@ -65,7 +73,6 @@
                     <div id="(1,5)" class="column" onclick="choosePC('(1,5)')"></div>
                     <div id="(1,6)" class="column" onclick="choosePC('(1,6)')"></div>
                     <div id="(1,7)" class="column" onclick="choosePC('(1,7)')"></div>
-                    <div id="(1,8)" class="column" onclick="choosePC('(1,8)')"></div>
             </div>
             <div class = "row"> 
                     <div id="(2,0)" class="column" onclick="choosePC('(2,0)')"></div>
@@ -76,7 +83,6 @@
                     <div id="(2,5)" class="column" onclick="choosePC('(2,5)')"></div>
                     <div id="(2,6)" class="column" onclick="choosePC('(2,6)')"></div>
                     <div id="(2,7)" class="column" onclick="choosePC('(2,7)')"></div>
-                    <div id="(2,8)" class="column" onclick="choosePC('(2,8)')"></div>
             </div>
             <div class = "row"> 
                     <div id="(3,0)" class="column" onclick="choosePC('(3,0)')"></div>
@@ -87,9 +93,9 @@
                     <div id="(3,5)" class="column" onclick="choosePC('(3,5)')"></div>
                     <div id="(3,6)" class="column" onclick="choosePC('(3,6)')"></div>
                     <div id="(3,7)" class="column" onclick="choosePC('(3,7)')"></div>
-                    <div id="(3,8)" class="column" onclick="choosePC('(3,8)')"></div>
             </div>
-            
+        </div>
+        <div id="create_comment_section">
             <h1 id="Computer Chosen">Comment on PC</h1>
             <div id="inputForm">
                 <form id="commentForm" action="/testURL">
@@ -100,16 +106,24 @@
                             <input type="text" class="form-control" id="NetId" name="NetId">
                             <label for="HardwareId">HardwareId(Optional):</label>
                             <input type="text" class="form-control" id="HardwareId" name="HardwareId">
-                            <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Machine Problem">Machine Problem</label>
-                            <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Hardware Problem">Hardware Problem</label>
-                            <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Software Problem">Sofware Problem</label>
-                            <p></p>
+                            <label for="categoryChecks">Category:</label>
+                            <select class="form-control" id="categoryChecks">
+                                
+                            </select>
                             <label for="Comment">Comment:</label>
                             <textarea class="form-control" rows="5" id="Comment" name="Comment"></textarea>                    </div>
                 </form>
-                <button id="createComment" type="button" style="margin: 5px;" onclick="sendComment()" class="btn btn-default" value="Submit">Submit</button>
+                <button id="createComment" type="button" style="margin: 5px;" onclick="sendComment()" class="btn btn-info" value="Submit">Submit</button>
             </div>
-            <a href="http://teamrocket.web.illinois.edu/comment" class="btn btn-primary">Comment Section</a>
         </div>
+    </div>
+    <div class="right-content">
+        <h2>Comments:</h2>
+        <div id="commentList">
+            
+        </div>
+        <a href="http://teamrocket.web.illinois.edu/comment" class="btn btn-primary viewComments"> View All Comments</a>
+    </div>
     </body>
+    
 </html>
