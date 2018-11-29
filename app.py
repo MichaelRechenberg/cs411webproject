@@ -38,11 +38,11 @@ Session(app)
 # Any global configuration (e.g. database configurations, before_request handlers)
 app.config.update(
     # User to login to the MySQL database with
-    MYSQL_USER = 'foo', #os.environ['CS411_MYSQL_USER'],
+    MYSQL_USER = os.environ['CS411_MYSQL_USER'],
     # Password to use to login to the MySQL database with
-    MYSQL_PASSWORD = 'foo', #os.environ['CS411_MYSQL_PASSWORD'],
+    MYSQL_PASSWORD = os.environ['CS411_MYSQL_PASSWORD'],
     # Name of database to connect to by default
-    MYSQL_DATABASE = 'foo' #os.environ['CS411_MYSQL_DATABASE']
+    MYSQL_DATABASE = os.environ['CS411_MYSQL_DATABASE']
 )
 
 
