@@ -10,18 +10,18 @@ function loginUser(){
                 success: function(data, textStatus, xhr) {
                     if(xhr.status == 200){
                         console.log(xhr.status)
-                        window.location.replace("http://127.0.0.1:8080/login/" + NetId);
+                        window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId);
                     }
 
                 },
                 complete: function(textStatus, xhr) {
                     if(xhr.status == 400){
                         console.log(xhr.status)
-                        window.location.replace("http://127.0.0.1:8080/login/error");
+                        window.location.replace("http://teamrocket.web.illinois.edu/login/error");
                     }
                 } 
             });
-            window.location.replace("http://127.0.0.1:8080/login/error");
+            window.location.replace("http://teamrocket.web.illinois.edu/login/error");
 
     }
 function createUser(){
@@ -41,6 +41,6 @@ function createUser(){
         data: JSON.stringify(data),
         contentType: "application/json"
     }).then(function(result) {
-        window.location.replace("http://127.0.0.1:8080/login/" + NetId);
+        window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId);
     });
 }
