@@ -9,6 +9,7 @@ from .cs411project.database.database_connection import MySQLConnection
 
 from .cs411project.views.main_view import mainView
 from .cs411project.views.comment_html_view import CommentHTMLView
+from .cs411project.views.comment_view import CommentChangeView, CommentView, AllDownageCategoriesView
 from .cs411project.views.login_html_view import loginView, loginUser, logoutUser, loginError
 from .cs411project.views.comment_view import CommentChangeView, CommentView
 from .cs411project.views.edit_view import editView
@@ -16,7 +17,13 @@ from .cs411project.views.machine_availability_view import BulkMachineAvailabilit
 from .cs411project.views.machine_view import SpecificMachineView, MachinesView
 from .cs411project.views.query_comment import QueryCommentView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
-from .cs411project.views.user_view import SpecificUserView, UsersView
+
+from .cs411project.views.user_view import SpecificUserView, UsersView, NewUserView
+from .cs411project.views.downage_category_view import SimpleDownageCategoryView, \
+        SimpleDownageCategoryStartBatchView, MixtureModelDownageCategoryStartBatchView, \
+        MixtureModelDownageCategoryView, DownageCategoriesEditingExistingCommentView
+from .cs411project.views.hbtest_view import HBView
+from .cs411project.views.ajax_view import AjaxView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -65,10 +72,10 @@ def after_request_cleanup(error):
 # Apply routing: map URLs to the View class to handle the logic of that route
 
 # API endpoints
-
 # User API
 app.add_url_rule('/project/users/<NetID>', view_func=SpecificUserView.as_view('specificUser'))
 app.add_url_rule('/project/users/all', view_func=UsersView.as_view('users'))
+app.add_url_rule('/project/users/new', view_func=NewUserView.as_view('newUser'))
 
 # Machine API
 app.add_url_rule('/project/machines/all',view_func=MachinesView.as_view('machines'))
@@ -82,6 +89,14 @@ app.add_url_rule('/project/comment/<comment_id>', view_func=CommentView.as_view(
 app.add_url_rule('/project/comment/insert', view_func=CommentView.as_view('comment'))
 app.add_url_rule('/project/comment/update/<CommentID>', view_func=CommentChangeView.as_view('commentChange'))
 app.add_url_rule('/project/comment/delete/<CommentID>', view_func=CommentChangeView.as_view('commentDelete'))
+app.add_url_rule('/project/comment/all-downage-categories', view_func=AllDownageCategoriesView.as_view('getAllDownageCategories'))
+
+# Downage Category API
+app.add_url_rule('/project/downage-category/simple/startBatch', view_func=SimpleDownageCategoryStartBatchView.as_view('downageCategorySimpleStartBatch'))
+app.add_url_rule('/project/downage-category/simple', view_func=SimpleDownageCategoryView.as_view('downageCategorySimpleGET'))
+app.add_url_rule('/project/downage-category/mixture/startBatch', view_func=MixtureModelDownageCategoryStartBatchView.as_view('downageCategoryMixtureStartBatch'))
+app.add_url_rule('/project/downage-category/mixture/<int:machine_id>', view_func=MixtureModelDownageCategoryView.as_view('downageCategoryMixtureGET'))
+app.add_url_rule('/project/downage-category/editing-comment/<int:comment_id>', view_func=DownageCategoriesEditingExistingCommentView.as_view('downageCategoryEditingComment'))
 
 # Login API
 app.add_url_rule('/login/<NetId>', view_func=loginUser.as_view('login'))
@@ -96,7 +111,7 @@ app.add_url_rule('/login', view_func=loginView.as_view('loginPage'))
 app.add_url_rule('/login/error', view_func=loginError.as_view('loginError'))
 
 
-
-
+app.add_url_rule('/testingajax', view_func=AjaxView.as_view('testajax'))
+app.add_url_rule('/project/hb/<NetID>/<MachineID>', view_func=HBView.as_view('hb'))
 # Set variable to application so cPanel can use our Flask app
 application = app
