@@ -15,8 +15,9 @@
                     var MachineID = Number(document.getElementById("MachineId").value);
                     var HardwareID = document.getElementById("HardwareId").value;
                     var NetId = document.getElementById("NetId").value;
+                    var options = document.getElementById("categoryChecks");
+                    var Category = e.options[e.selectedIndex].value;
                     var CommentText = document.getElementById("Comment").value;
-                    var Category = $("input[name=Category]:checked").val();
                     var data = {};
                     data['AuthorNetID'] = NetId;
                     data['MachineID'] = MachineID;
