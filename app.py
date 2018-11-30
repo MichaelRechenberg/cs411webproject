@@ -17,11 +17,11 @@ from .cs411project.views.machine_availability_view import BulkMachineAvailabilit
 from .cs411project.views.machine_view import SpecificMachineView, MachinesView
 from .cs411project.views.query_comment import QueryCommentView
 from .cs411project.views.test_view import TestAPIView, TestPreparedStatementAPIView
-
 from .cs411project.views.user_view import SpecificUserView, UsersView, NewUserView
 from .cs411project.views.downage_category_view import SimpleDownageCategoryView, \
         SimpleDownageCategoryStartBatchView, MixtureModelDownageCategoryStartBatchView, \
         MixtureModelDownageCategoryView, DownageCategoriesEditingExistingCommentView
+from .cs411project.views.user_view import SpecificUserView, UsersView
 from .cs411project.views.hbtest_view import HBView
 from .cs411project.views.ajax_view import AjaxView
 
@@ -110,7 +110,6 @@ app.add_url_rule('/comment/edit/<comment>', view_func=editView.as_view('editComm
 app.add_url_rule('/login', view_func=loginView.as_view('loginPage'))
 app.add_url_rule('/login/error', view_func=loginError.as_view('loginError'))
 app.add_url_rule('/login/MachineError', view_func=loginMachineError.as_view('loginMachineError'))
-
 
 app.add_url_rule('/testingajax', view_func=AjaxView.as_view('testajax'))
 app.add_url_rule('/project/hb/<NetID>/<MachineID>', view_func=HBView.as_view('hb'))
