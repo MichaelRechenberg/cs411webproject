@@ -41,6 +41,24 @@ class CommentChangeView(MethodView):
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True) 
                 cursor.execute(query, args)
+
+
+                # Update the status of the Machine M associated with this Comment C to either BROKEN or ALIVE
+                #   based on if there are no more unresolved Comments for machine M after updating C
+                update_machine_status_query = """
+                    UPDATE Machine
+                    SET Status = (SELECT CASE WHEN EXISTS (
+                            SELECT * FROM Comments
+                            WHERE MachineID = (SELECT MachineID FROM Comments WHERE CommentID = (%s)) AND IsResolved = 0
+                        )
+                        THEN 0
+                        ELSE 1
+			END
+                    )
+                    WHERE MachineID = (SELECT MachineID FROM Comments WHERE CommentID = (%s))
+                """
+                cursor.execute(update_machine_status_query, (CommentID, CommentID))
+
                 connection.commit()
                 cursor.close()
                 return jsonify({'Result': True})
@@ -48,8 +66,31 @@ class CommentChangeView(MethodView):
         def delete(self,CommentID):
                 connection  = g.mysql_connection.get_connection()
                 cursor = connection.cursor(prepared=True)
-                query = "DELETE FROM Comments WHERE CommentID = (%s)"
-                cursor.execute(query,(CommentID,))
+
+
+                # Get the MachineID associated with the comment we are about to delete before we delete it
+                get_machine_id_query = "SELECT MachineID FROM Comments WHERE CommentID = (%s)"
+                cursor.execute(get_machine_id_query, (CommentID,))
+                machine_id = cursor.fetchone()[0]
+
+                # Delete the Comment
+                delete_comment_query = "DELETE FROM Comments WHERE CommentID = (%s)"
+                cursor.execute(delete_comment_query, (CommentID,))
+
+                # Update the status of the Machine M associated with this Comment C to either BROKEN or ALIVE
+                #   based on if there are no more unresolved Comments for machine M after deleting C
+                update_machine_status_query = """
+                    UPDATE Machine
+                    SET Status = (SELECT CASE WHEN EXISTS (
+                            SELECT * FROM Comments WHERE MachineID = (%s) AND IsResolved = 0
+                        )
+                        THEN 0
+                        ELSE 1
+			END
+                    )
+                    WHERE MachineID = (%s)
+                """
+                cursor.execute(update_machine_status_query, (machine_id, machine_id))
                 connection.commit()
                 cursor.close()
                 return jsonify({'Result': True})
@@ -69,6 +110,11 @@ class CommentView(MethodView):
                 cursor = connection.cursor(prepared=True)
                 query = "INSERT INTO Comments (Category,CommentText,IsResolved,HardwareID,AuthorNetID,MachineID) VALUES((%s),(%s),0,(%s),(%s),(%s))"
                 cursor.execute(query,(category,commentText,hardwareID,AuthorNetID,MachineID))
+
+                # Set the machine associated with this Comment to have status BROKEN because a new comment is always unresolved
+                set_machine_broken_query = "UPDATE Machine SET Status = 0 WHERE MachineID = (%s)"
+                cursor.execute(set_machine_broken_query, (MachineID,))
+
                 connection.commit()
                 cursor.close()
                 return jsonify({'Result': True})
