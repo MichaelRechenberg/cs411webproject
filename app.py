@@ -24,6 +24,7 @@ from .cs411project.views.downage_category_view import SimpleDownageCategoryView,
 from .cs411project.views.user_view import SpecificUserView, UsersView
 from .cs411project.views.hbtest_view import HBView
 from .cs411project.views.ajax_view import AjaxView
+from .cs411project.views.konva_view import KonvaView
 
 # Create flask app
 # TODO: specify static_folder and template_folder in this constructor
@@ -113,5 +114,6 @@ app.add_url_rule('/login/MachineError', view_func=loginMachineError.as_view('log
 
 app.add_url_rule('/testingajax', view_func=AjaxView.as_view('testajax'))
 app.add_url_rule('/project/hb/<NetID>/<MachineID>', view_func=HBView.as_view('hb'))
+app.add_url_rule('/project/konva', view_func=KonvaView.as_view('konva'))
 # Set variable to application so cPanel can use our Flask app
 application = app

@@ -123,11 +123,13 @@ class MachineAvailabilityView(MethodView):
         field_names = [x[0] for x in cursor.description]
 
         result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, field_names))
-
+        query2 = "SELECT * FROM MachineLocation WHERE MachineID = %s"
+        cursor.execute(query2, (machineID,))
+        result = list(cursor)
         # Append location information
         # TODO: actually query location
         for machine_dict in result_as_dicts:
-            machine_dict['location'] = STUB_LOCATION_DICT[str(machineID)]
+            machine_dict['location'] = {'x':result[0][1],'y':result[0][2]}
 
         cursor.close()
 
