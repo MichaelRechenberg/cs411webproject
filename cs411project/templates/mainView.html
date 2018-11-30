@@ -8,6 +8,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script src="https://cdn.rawgit.com/konvajs/konva/0.9.0/konva.js"></script>
         <script src="../static/scripts/mainView.js"></script>
         <link rel="stylesheet" type="text/css" href="../static/style/mainView.css"  />
         <script>
@@ -41,7 +42,7 @@
                 $(document).ready(displayComments({}, '{{netId}}'));
                 $(document).ready(getCategories());
         </script>
-        
+
     </head>
     <body>
         <div class="topBanner">
@@ -54,48 +55,218 @@
         </div>
     <div class="left-content">
         <h1 style="margin-left: 35px;">Machine Layout</h1>
-        <div class="computerGrid">
-            <div class = "row"> 
-                    <div id="(0,0)" class="column" onclick="choosePC('(0,0)')"></div>
-                    <div id="(0,1)" class="column" onclick="choosePC('(0,1)')"></div>
-                    <div id="(0,2)" class="column" onclick="choosePC('(0,2)')"></div>
-                    <div id="(0,3)" class="column" onclick="choosePC('(0,3)')"></div>
-                    <div id="(0,4)" class="column" onclick="choosePC('(0,4)')"></div>
-                    <div id="(0,5)" class="column" onclick="choosePC('(0,5)')"></div>
-                    <div id="(0,6)" class="column" onclick="choosePC('(0,6)')"></div>
-                    <div id="(0,7)" class="column" onclick="choosePC('(0,7)')"></div>
-            </div>
-            <div class = "row"> 
-                    <div id="(1,0)" class="column" onclick="choosePC('(1,0)')"></div>
-                    <div id="(1,1)" class="column" onclick="choosePC('(1,1)')"></div>
-                    <div id="(1,2)" class="column" onclick="choosePC('(1,2)')"></div>
-                    <div id="(1,3)" class="column" onclick="choosePC('(1,3)')"></div>
-                    <div id="(1,4)" class="column" onclick="choosePC('(1,4)')"></div>
-                    <div id="(1,5)" class="column" onclick="choosePC('(1,5)')"></div>
-                    <div id="(1,6)" class="column" onclick="choosePC('(1,6)')"></div>
-                    <div id="(1,7)" class="column" onclick="choosePC('(1,7)')"></div>
-            </div>
-            <div class = "row"> 
-                    <div id="(2,0)" class="column" onclick="choosePC('(2,0)')"></div>
-                    <div id="(2,1)" class="column" onclick="choosePC('(2,1)')"></div>
-                    <div id="(2,2)" class="column" onclick="choosePC('(2,2)')"></div>
-                    <div id="(2,3)" class="column" onclick="choosePC('(2,3)')"></div>
-                    <div id="(2,4)" class="column" onclick="choosePC('(2,4)')"></div>
-                    <div id="(2,5)" class="column" onclick="choosePC('(2,5)')"></div>
-                    <div id="(2,6)" class="column" onclick="choosePC('(2,6)')"></div>
-                    <div id="(2,7)" class="column" onclick="choosePC('(2,7)')"></div>
-            </div>
-            <div class = "row"> 
-                    <div id="(3,0)" class="column" onclick="choosePC('(3,0)')"></div>
-                    <div id="(3,1)" class="column" onclick="choosePC('(3,1)')"></div>
-                    <div id="(3,2)" class="column" onclick="choosePC('(3,2)')"></div>
-                    <div id="(3,3)" class="column" onclick="choosePC('(3,3)')"></div>
-                    <div id="(3,4)" class="column" onclick="choosePC('(3,4)')"></div>
-                    <div id="(3,5)" class="column" onclick="choosePC('(3,5)')"></div>
-                    <div id="(3,6)" class="column" onclick="choosePC('(3,6)')"></div>
-                    <div id="(3,7)" class="column" onclick="choosePC('(3,7)')"></div>
-            </div>
+        <div id="computerGrid"></div>
+        <div id ="Buttons">
+          <button id="modify">
+            Modify Locations
+          </button>
         </div>
+        <script>
+          var width = 700;
+          var height = 300;
+          var shadowOffset = 20;
+          var tween = null;
+          var blockSnapSize = 70;
+          var machineDict = {};
+
+          var shadowRectangle = new Konva.Rect({
+          x: 0,
+          y: 0,
+          width: blockSnapSize * 1,
+          height: blockSnapSize * 1,
+          fill: '#FF7B17',
+          opacity: 0.6,
+          stroke: '#CF6412',
+          strokeWidth: 3,
+          dash: [20, 2]
+          });
+
+          function newRectangle(x, y, layer, stage, status, machineID) {
+          let color;
+          if (status === 'BROKEN'){
+            color = 'red';
+          }
+          else if(status === 'IN-USE'){
+            color = 'yellow';
+          }
+          else{
+            color = 'green';
+          }
+          let rectangle = new Konva.Rect({
+            x: x,
+            y: y,
+            width: blockSnapSize * 1,
+            height: blockSnapSize * 1,
+            fill: color,
+            stroke: '#ddd',
+            strokeWidth: 1,
+            shadowColor: 'black',
+            shadowBlur: 2,
+            shadowOffset: {x : 1, y : 1},
+            shadowOpacity: 0.4,
+            draggable: true
+          });
+          rectangle.addName(machineID.toString());
+
+          let tooltip;
+          let movedTooltip;
+
+
+          tooltip = new Konva.Text({
+                text: "",
+                fontFamily: "Calibri",
+                fontSize: 12,
+                padding: 5,
+                textFill: "white",
+                fill: "black",
+                alpha: 0.75,
+                visible: false
+            });
+
+          tooltip.position({
+                    x : x,
+                    y : y
+                });
+
+          tooltip.text(rectangle.name());
+          tooltip.show();
+          rectangle.on('click', function (e) {
+            choosePC(machineID.toString());
+          });
+
+          rectangle.on('dragstart', (e) => {
+            console.log("Moving Machine " + rectangle.name() + " From (" + rectangle.x() + ", " + rectangle.y() + ")");
+            shadowRectangle.show();
+            shadowRectangle.moveToTop();
+            rectangle.moveToTop();
+            tooltip.hide();
+            if(movedTooltip){
+                movedTooltip.hide();
+            }
+            stage.batchDraw();
+          });
+          rectangle.on('dragend', (e) => {
+
+            let new_x = Math.round(rectangle.x() / blockSnapSize) * blockSnapSize;
+            let new_y = Math.round(rectangle.y() / blockSnapSize) * blockSnapSize;
+
+
+
+            rectangle.position({
+              x: Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
+              y: Math.round(rectangle.y() / blockSnapSize) * blockSnapSize
+            });
+            console.log("Moved Machine " + rectangle.name() + " To (" + rectangle.x() + ", " + rectangle.y() + ")");
+            movedTooltip = new Konva.Text({
+                  text: "",
+                  fontFamily: "Calibri",
+                  fontSize: 12,
+                  padding: 5,
+                  textFill: "white",
+                  fill: "black",
+                  alpha: 0.75,
+                  visible: false
+              });
+
+            movedTooltip.position({
+                      x : Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
+                      y : Math.round(rectangle.y() / blockSnapSize) * blockSnapSize
+            });
+            movedTooltip.text(rectangle.name());
+            movedTooltip.show()
+            stage.batchDraw();
+            shadowRectangle.hide();
+            layer.add(movedTooltip);
+            machineDict[rectangle.name()] = {'x':new_x/blockSnapSize,'y':new_y/blockSnapSize};
+          });
+          rectangle.on('dragmove', (e) => {
+            shadowRectangle.position({
+              x: Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
+              y: Math.round(rectangle.y() / blockSnapSize) * blockSnapSize
+            });
+            stage.batchDraw();
+          });
+
+
+          layer.add(rectangle);
+          layer.add(tooltip);
+          return rectangle;
+          }
+
+          var stage = new Konva.Stage({
+          container: 'computerGrid',
+          width: width,
+          height: height
+          });
+
+          var gridLayer = new Konva.Layer();
+          var padding = blockSnapSize;
+          for (var i = 0; i < width / padding; i++) {
+          gridLayer.add(new Konva.Line({
+            points: [Math.round(i * padding) + 0.5, 0, Math.round(i * padding) + 0.5, height],
+            stroke: '#ddd',
+            strokeWidth: 1,
+          }));
+          }
+
+          gridLayer.add(new Konva.Line({points: [0,0,10,10]}));
+          for (var j = 0; j < height / padding; j++) {
+          gridLayer.add(new Konva.Line({
+            points: [0, Math.round(j * padding), width, Math.round(j * padding)],
+            stroke: '#ddd',
+            strokeWidth: 0.5,
+          }));
+          }
+
+          var layer = new Konva.Layer();
+          shadowRectangle.hide();
+          layer.add(shadowRectangle);
+          $.ajax({
+              method: "GET",
+              url: 'http://teamrocket.web.illinois.edu/project/machine/availability',
+              dataType: 'json',
+              success: function(data,textStatus,xhr){
+                  data.forEach(function (machine) {
+                    let x_cord = machine['location']['x'];
+                    let y_cord = machine['location']['y'];
+                    let machineStatus = machine['MachineAvailability'];
+                    let id = machine['MachineID'];
+                    let rect = newRectangle(blockSnapSize * x_cord, blockSnapSize * y_cord, layer, stage, machineStatus,id);
+                    machineDict[id.toString()] = {'x':x_cord, 'y':y_cord};
+                  });
+                  stage.add(gridLayer);
+                  stage.add(layer);
+              }
+          });
+          document.getElementById('modify').addEventListener('click', function() {
+            let request_data = {};
+            request_data['NetID'] = '{{ netId }}';
+            request_data['locations'] = [];
+            for (var machine_id in machineDict) {
+              request_data['locations'].push(
+                {
+                  'MachineID': machine_id,
+                  'location': {
+                    'x':machineDict[machine_id]['x'],
+                    'y':machineDict[machine_id]['y']
+                  }
+                }
+              )
+            }
+            $.ajax({
+              method:'POST',
+              url:'http://teamrocket.web.illinois.edu/project/location',
+              data:JSON.stringify(request_data),
+              dataType: 'json',
+              contentType: "application/json",
+              success:function(data,textStatus,xhr){
+                console.log(data);
+                console.log("New Machine Locations Sent!");
+              }
+            });
+          }, false);
+
+        </script>
         <div id="create_comment_section">
             <h1 id="Computer Chosen">Comment on PC</h1>
             <div id="inputForm">
@@ -109,7 +280,7 @@
                             <input type="text" class="form-control" id="HardwareId" name="HardwareId">
                             <label for="categoryChecks">Category:</label>
                             <select class="form-control" id="categoryChecks">
-                                
+
                             </select>
                             <label for="Comment">Comment:</label>
                             <textarea class="form-control" rows="5" id="Comment" name="Comment"></textarea>                    </div>
@@ -121,10 +292,10 @@
     <div class="right-content">
         <h2>Comments:</h2>
         <div id="commentList">
-            
+
         </div>
         <a href="http://teamrocket.web.illinois.edu/comment" class="btn btn-primary viewComments"> View All Comments</a>
     </div>
     </body>
-    
+
 </html>
