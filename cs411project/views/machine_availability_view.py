@@ -56,21 +56,19 @@ class BulkMachineAvailabilityView(MethodView):
         #   Otherwise, MySQL will complain that we closed the cursor with unread results
         result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, field_names))
 
-        # Append location information
-        # TODO: actually query location
-
-	#Getting real locations
+        # Append location information from MachineLocation
         query2 = "SELECT * FROM MachineLocation"
         cursor.execute(query2)
-        result = list(cursor)
-        for machine_dict in result_as_dicts:
-            machineID = machine_dict['MachineID']
-            #machine_dict['location'] = STUB_LOCATION_DICT[str(machineID)]
-            machine_dict['location'] = {'x':result[int(machineID)-1][1],'y':result[int(machineID)-1][2]}
+        all_machine_locations_list = list(cursor)
+        all_machine_locations_dict = {machine_id:{'x':x_coord, 'y':y_coord} for (machine_id, x_coord, y_coord) in all_machine_locations_list}
+
+        for result_dict in result_as_dicts:
+            machineID = result_dict['MachineID']
+            result_dict['location'] = all_machine_locations_dict[machineID]
+
         cursor.close()
 
         # We have the result set returned as JSON
-        #return jsonify(result_as_dicts)
         return jsonify(result_as_dicts)
 
 
@@ -123,15 +121,22 @@ class MachineAvailabilityView(MethodView):
         field_names = [x[0] for x in cursor.description]
 
         result_as_dicts = list(EntitySerializer.db_entities_to_python(cursor, field_names))
+        query2 = "SELECT * FROM MachineLocation WHERE MachineID = %s"
+        cursor.execute(query2, (machineID,))
 
         # Append location information
-        # TODO: actually query location
-        for machine_dict in result_as_dicts:
-            machine_dict['location'] = STUB_LOCATION_DICT[str(machineID)]
+        all_machine_locations_list = list(cursor)
+        all_machine_locations_dict = {machine_id:{'x':x_coord, 'y':y_coord} for (machine_id, x_coord, y_coord) in all_machine_locations_list}
+
+
+        for result_dict in result_as_dicts:
+            result_dict['location'] = all_machine_locations_dict[machineID]
+
 
         cursor.close()
 
         result = {}
+        # Only send one JSON object in the request
         if len(result_as_dicts) > 0:
             result = result_as_dicts[0]
 
