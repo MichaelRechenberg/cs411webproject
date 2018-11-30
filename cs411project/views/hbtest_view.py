@@ -26,7 +26,7 @@ class HBView(MethodView):
 		#Find the most recent heartbeat sequence with given NetID and MachineID, and its LastTS + Tfail should be less than CURRENT_TIMESTAMP, if LastTS is NULL, FirstTS + Tfail should be less than CURRENT_TIMESTAMP, meaning this sequence is within the update time window. If we didn't find such sequence (result == NULL), we will go ahead and insert a new sequnce, otherwise we will update the returned sequence. 
 		if not result:
 			cursor.execute("UPDATE Machine SET NetIDofLastUsed = %s WHERE MachineID = %s", (NetID, MachineID,))
-			query2 = "INSERT INTO HeartbeatSequence(NetID, MachineID) Values (%s, %s)"
+			query2 = "INSERT INTO HeartbeatSequence(NetID, MachineID, NumHeartbeats, Tfail) VALUES (%s, %s, 0, '00:05:00')"
 			cursor.execute(query2, (NetID, MachineID,))
 			g.mysql_connection.get_connection().commit()
 			cursor.close()
