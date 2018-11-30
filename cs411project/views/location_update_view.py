@@ -8,10 +8,7 @@ import json
 class LocationView(MethodView):
   def post(self):
     request_json = request.get_json()
-    if request_json:
-      arg_count = len(request_json)
-    else:
-      return jsonify([])
+
     NetID = request_json["NetID"]
     locations = request_json["locations"]
     connection = g.mysql_connection.get_connection()
