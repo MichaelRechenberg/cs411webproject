@@ -4,6 +4,7 @@ DELETE FROM Comments;
 DELETE FROM Machine;
 DELETE FROM Users;
 DELETE FROM Hardware;
+DELETE FROM MachineLocation;
 
 /* 10 Machines and Heartbeat sequence inserts
    Only the first 7 machines will have a HeartbeatSequence row */
@@ -13,7 +14,7 @@ INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('testNetId', TRUE, '
   Status of 0 -> BROKEN
   Status of 1 -> ALIVE
 */
-INSERT INTO Machine(MachineID, NetIDOfLastUsed, Status) VALUES (1, NULL, 0);
+INSERT INTO Machine(MachineID, NetIDOfLastUsed, Status) VALUES (1, NULL, 1);
 INSERT INTO Machine(MachineID, NetIDOfLastUsed, Status) VALUES (2, NULL, 1);
 INSERT INTO Machine(MachineID, NetIDOfLastUsed, Status) VALUES (3, NULL, 1);
 INSERT INTO Machine(MachineID, NetIDOfLastUsed, Status) VALUES (4, NULL, 1);
@@ -74,7 +75,7 @@ UPDATE HeartbeatSequence SET NumHeartBeats = NumHeartBeats + 1 WHERE MachineID =
 INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('rchnbrg2', 0, 'Michael', 'Rechenberg');
 INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('aburket2', 0, 'Adam', 'Burkett');
 INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('hop2', 0, 'Tianyu', 'Liang');
-INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('tvargh4', 0, 'Thomas', 'Varghese');
+INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('tvarghe2', 0, 'Thomas', 'Varghese');
 INSERT INTO Users(NetID, isTA, FirstName, LastName) VALUES ('dmace2', 1, 'Dan', 'Mace');
 
 
@@ -94,26 +95,17 @@ INSERT INTO Hardware(HardwareID, Type) VALUES (11, 1);
 INSERT INTO Hardware(HardwareID, Type) VALUES (12, 1);
 
 
-/* Mock Comments */
-/*
-  Machine 1 has 2 unresolved comments
-  Machine 2 has 1 resolved comment and 1 unresolved comment
-  Machine 3 has 2 resolved comments
-
-  Every other machine (except for machine 7) has 1 resolved comment
-*/
-/* TODO: Change Category to an FK to DownageCategory after midterm demo */
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES
-  ('Software Problem', 'Lighting engine is giving stack overflow error for MP2', 0, NULL, 'rchnbrg2', 1);
+  ('Software Problem', 'Lighting engine is giving stack overflow error for MP2', 1, NULL, 'rchnbrg2', 1);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES
-  ('Hardware Problem', 'Lens is dirty', 0, 1, 'rchnbrg2', 1);
+  ('Hardware Problem', 'Lens is dirty', 1, 1, 'rchnbrg2', 1);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES
-  ('Hardware Problem', 'The strap is broken', 0, NULL, 'aburket2', 1);
+  ('Hardware Problem', 'The strap is broken', 1, NULL, 'aburket2', 1);
 
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES
   ('Machine Problem', 'Missing a driver for nvidia', 1, NULL, 'aburket2', 2);
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES
-  ('Hardware Problem', 'Left analog stick of controller is stuck', 0, 2, 'hop2', 2);
+  ('Hardware Problem', 'Left analog stick of controller is stuck', 1, 2, 'hop2', 2);
 
 INSERT INTO Comments(Category, CommentText, IsResolved, HardwareID, AuthorNetID, MachineID) VALUES
   ('Software Problem', 'Unity crashes after opening up MP4', 1, NULL, 'hop2', 3);

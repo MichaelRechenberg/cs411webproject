@@ -56,12 +56,18 @@
     <div class="left-content">
         <h1 style="margin-left: 35px;">Machine Layout</h1>
         <div id="computerGrid"></div>
+        <div id ="Buttons">
+          <button id="modify">
+            Modify Locations
+          </button>
+        </div>
         <script>
-          var width = 500;
-          var height = 250;
+          var width = 700;
+          var height = 300;
           var shadowOffset = 20;
           var tween = null;
-          var blockSnapSize = 50;
+          var blockSnapSize = 70;
+          var machineDict = {};
 
           var shadowRectangle = new Konva.Rect({
           x: 0,
@@ -138,6 +144,11 @@
           });
           rectangle.on('dragend', (e) => {
 
+            let new_x = Math.round(rectangle.x() / blockSnapSize) * blockSnapSize;
+            let new_y = Math.round(rectangle.y() / blockSnapSize) * blockSnapSize;
+
+
+
             rectangle.position({
               x: Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
               y: Math.round(rectangle.y() / blockSnapSize) * blockSnapSize
@@ -155,14 +166,15 @@
               });
 
             movedTooltip.position({
-                      x :  Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
+                      x : Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
                       y : Math.round(rectangle.y() / blockSnapSize) * blockSnapSize
-                  });
+            });
             movedTooltip.text(rectangle.name());
             movedTooltip.show()
             stage.batchDraw();
             shadowRectangle.hide();
             layer.add(movedTooltip);
+            machineDict[rectangle.name()] = {'x':new_x/blockSnapSize,'y':new_y/blockSnapSize};
           });
           rectangle.on('dragmove', (e) => {
             shadowRectangle.position({
@@ -175,6 +187,7 @@
 
           layer.add(rectangle);
           layer.add(tooltip);
+          return rectangle;
           }
 
           var stage = new Konva.Stage({
@@ -205,7 +218,6 @@
           var layer = new Konva.Layer();
           shadowRectangle.hide();
           layer.add(shadowRectangle);
-
           $.ajax({
               method: "GET",
               url: 'http://teamrocket.web.illinois.edu/project/machine/availability',
@@ -216,12 +228,40 @@
                     let y_cord = machine['location']['y'];
                     let machineStatus = machine['MachineAvailability'];
                     let id = machine['MachineID'];
-                    newRectangle(blockSnapSize * x_cord, blockSnapSize * y_cord, layer, stage, machineStatus,id);
+                    let rect = newRectangle(blockSnapSize * x_cord, blockSnapSize * y_cord, layer, stage, machineStatus,id);
+                    machineDict[id.toString()] = {'x':x_cord, 'y':y_cord};
                   });
                   stage.add(gridLayer);
                   stage.add(layer);
               }
           });
+          document.getElementById('modify').addEventListener('click', function() {
+            let request_data = {};
+            request_data['NetID'] = 'dmace2';
+            request_data['locations'] = [];
+            for (var machine_id in machineDict) {
+              request_data['locations'].push(
+                {
+                  'MachineID': machine_id,
+                  'location': {
+                    'x':machineDict[machine_id]['x'],
+                    'y':machineDict[machine_id]['y']
+                  }
+                }
+              )
+            }
+            $.ajax({
+              method:'POST',
+              url:'http://teamrocket.web.illinois.edu/project/location',
+              data:JSON.stringify(request_data),
+              dataType: 'json',
+              contentType: "application/json",
+              success:function(data,textStatus,xhr){
+                console.log(data);
+                console.log("New Machine Locations Sent!");
+              }
+            });
+          }, false);
 
         </script>
         <div id="create_comment_section">
