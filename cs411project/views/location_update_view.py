@@ -11,6 +11,7 @@ class LocationView(MethodView):
 
     NetID = request_json["NetID"]
     locations = request_json["locations"]
+
     connection = g.mysql_connection.get_connection()
     cursor = connection.cursor(prepared=True)
     cursor.execute("SELECT * FROM Users WHERE NetID = %s AND isTA = 1", (NetID,))
@@ -23,12 +24,15 @@ class LocationView(MethodView):
 
       for machine_dict in locations:
         machineID = machine_dict["MachineID"]
-        x = machine_dict["location"]["x"]
-        y = machine_dict["location"]["y"]
+        x = (machine_dict["location"])["x"]
+        y = (machine_dict["location"])["y"]
         insert_new_location_query = "INSERT INTO MachineLocation(X_COORDINATE, Y_COORDINATE, MachineID) VALUES ((%s), (%s), (%s))"
-        cursor.execute(insert_new_location_query, (x,y,machineID,))
-        cursor.close()
-        connection.commit()
-        return jsonify("Successfully updated machine locations"), 202
+        cursor.execute(insert_new_location_query, (x,y,machineID))
+
+      cursor.close()
+      connection.commit()
+      return jsonify("Successfully updated machine locations"), 202
     else:
+      cursor.close()
+      conection.abort()
       return (jsonify("You are NOT a TA! Only TAs can update machine locations"), 400)
