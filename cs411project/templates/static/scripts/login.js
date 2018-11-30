@@ -8,13 +8,14 @@ function loginUser(){
                 method: "GET",
                 url: 'http://teamrocket.web.illinois.edu/project/users/' + NetId,
                 success: function(data, textStatus, xhr) {
+                    var isTA = data["isTA"].toString();
                     if(xhr.status == 200){
                         $.ajax({
                             method: "GET",
-                            url: 'http://teamrocket.web.illinois.edu/project/machine/' + MachineID,
+                            url: 'http://teamrocket.web.illinois.edu/project/machines/' + MachineID,
                             success: function(data, textStatus, xhr) {
                                 if(data.length > 0){
-                                    window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId + "/" + data["isTA"].toString);
+                                    window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId + "/" + isTA);
                                 }
                                 else {
                                     window.location.replace("http://teamrocket.web.illinois.edu/login/MachineError");
@@ -31,8 +32,6 @@ function loginUser(){
                     }
                 } 
             });
-            window.location.replace("http://teamrocket.web.illinois.edu/login/error");
-
     }
 function createUser(){
     var NetId = document.getElementById("createNetId").value;
