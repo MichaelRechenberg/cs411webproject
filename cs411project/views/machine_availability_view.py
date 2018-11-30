@@ -64,7 +64,7 @@ class BulkMachineAvailabilityView(MethodView):
 
         for result_dict in result_as_dicts:
             machineID = result_dict['MachineID']
-            result_dict['location'] = all_machine_locations_dict[machineID]
+            result_dict['location'] = all_machine_locations_dict.get(machineID, {'x': "LOCATION NOT FOUND", 'y': "LOCATION NOT FOUND"})
 
         cursor.close()
 

@@ -237,7 +237,7 @@
           });
           document.getElementById('modify').addEventListener('click', function() {
             let request_data = {};
-            request_data['NetID'] = 'dmace2';
+            request_data['NetID'] = '{{ netId }}';
             request_data['locations'] = [];
             for (var machine_id in machineDict) {
               request_data['locations'].push(

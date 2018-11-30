@@ -34,5 +34,5 @@ class LocationView(MethodView):
       return jsonify("Successfully updated machine locations"), 202
     else:
       cursor.close()
-      conection.abort()
+      connection.rollback()
       return (jsonify("You are NOT a TA! Only TAs can update machine locations"), 400)
