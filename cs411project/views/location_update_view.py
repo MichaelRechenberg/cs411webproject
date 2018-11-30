@@ -5,7 +5,7 @@ from ..database.entity_serializer import EntitySerializer
 
 import json
 
-class KonvaView(MethodView):
+class LocationView(MethodView):
   def post(self):
     request_json = request.get_json()
     if request_json:
