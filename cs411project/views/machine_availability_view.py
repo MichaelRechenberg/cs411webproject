@@ -58,13 +58,19 @@ class BulkMachineAvailabilityView(MethodView):
 
         # Append location information
         # TODO: actually query location
+
+	#Getting real locations
+        query2 = "SELECT * FROM MachineLocation"
+        cursor.execute(query2)
+        result = list(cursor)
         for machine_dict in result_as_dicts:
             machineID = machine_dict['MachineID']
-            machine_dict['location'] = STUB_LOCATION_DICT[str(machineID)]
-
+            #machine_dict['location'] = STUB_LOCATION_DICT[str(machineID)]
+            machine_dict['location'] = {'x':result[int(machineID)-1][1],'y':result[int(machineID)-1][2]}
         cursor.close()
 
         # We have the result set returned as JSON
+        #return jsonify(result_as_dicts)
         return jsonify(result_as_dicts)
 
 
