@@ -47,7 +47,7 @@ class Preprocessing:
         # Discover useful bigrams like "hot dog" via mutual information (see https://svn.spraakdata.gu.se/repos/gerlof/pub/www/Docs/npmi-pfd.pdf)
         # Bigrams will have a _ put between them (so the bigram "hot dog" will be transformed to "hot_dog")
         phrases = Phrases(preprocessed_corpus, min_count=BIGRAM_MIN_COUNT, threshold=BIGRAM_SCORE_THRESHOLD)
-        tweet_corpus = phrases[preprocessed_corpus]
+        preprocessed_corpus = phrases[preprocessed_corpus]
 
         dictionary = Dictionary(preprocessed_corpus)
         dictionary.compactify()
