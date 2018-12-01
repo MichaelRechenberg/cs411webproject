@@ -14,8 +14,10 @@ function loginUser(){
                             method: "GET",
                             url: 'http://teamrocket.web.illinois.edu/project/machines/' + MachineID,
                             success: function(data, textStatus, xhr) {
+                                // This route returns a list with one JSON object of the machine
+                                var machineId = ((data[0])["MachineID"]).toString();
                                 if(data.length > 0){
-                                    window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId + "/" + isTA);
+                                    window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId + "/" + isTA + "/" + machineId);
                                 }
                                 else {
                                     window.location.replace("http://teamrocket.web.illinois.edu/login/MachineError");
@@ -50,6 +52,8 @@ function createUser(){
         data: JSON.stringify(data),
         contentType: "application/json"
     }).then(function(result) {
-        window.location.replace("http://teamrocket.web.illinois.edu/login/" + NetId);
+        // After we create a user, give them an Alert saying we added them and then make them login
+        alert("User " + NetId + " added! Please login now");
+        window.location.replace("http://teamrocket.web.illinois.edu/login");
     });
 }

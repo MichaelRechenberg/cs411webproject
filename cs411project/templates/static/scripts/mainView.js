@@ -4,8 +4,8 @@ function choosePC(machineID){
 }
 
 function sendHeartbeat(netId, machineId) { 
-  var url = "http://teamrocket.web.illinois.edu/project/hbtest/" + netId + "/" + machineId;
-  console.log("Attempting to send heartbeat for net Id " + netId + " and machine Id " + machineId;
+  var url = "http://teamrocket.web.illinois.edu/project/hb/" + netId + "/" + machineId;
+  console.log("Attempting to send heartbeat for net Id " + netId + " and machine Id " + machineId);
   $.ajax({
    type: "POST",
    url: url,
@@ -17,7 +17,7 @@ function sendHeartbeat(netId, machineId) {
 }
 
 function sendHeartbeatsContinually(netId, machineId){
-  setInterval(function() {sendHeartbeat(netId, machineId);}, 10000);
+  setInterval(function() {sendHeartbeat(netId, machineId);}, 10*1000);
 }
 
 function displayComments(filters, netId) {
