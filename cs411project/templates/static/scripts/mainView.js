@@ -1,6 +1,23 @@
- function choosePC(machineID){
+function choosePC(machineID){
                         document.getElementById("Computer Chosen").innerHTML = "Comment on PC #"+machineID;
                         document.getElementById("MachineId").value = machineID;
+}
+
+function sendHeartbeat(netId, machineId) { 
+  var url = "http://teamrocket.web.illinois.edu/project/hbtest/" + netId + "/" + machineId;
+  console.log("Attempting to send heartbeat for net Id " + netId + " and machine Id " + machineId;
+  $.ajax({
+   type: "POST",
+   url: url,
+   data: "",
+   success: function() {
+     console.log("Successfully sent heartbeat");
+   }
+  });
+}
+
+function sendHeartbeatsContinually(netId, machineId){
+  setInterval(function() {sendHeartbeat(netId, machineId);}, 10000);
 }
 
 function displayComments(filters, netId) {
