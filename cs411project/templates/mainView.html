@@ -41,6 +41,7 @@
                 }
                 $(document).ready(displayComments({}, '{{netId}}'));
                 $(document).ready(getCategories());
+                $(document).ready(sendHeartbeatsContinually('{{netId}}', '{{machineId}}'));
         </script>
 
     </head>
