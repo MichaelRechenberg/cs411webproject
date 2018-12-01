@@ -16,6 +16,8 @@
                     var NetId = document.getElementById("NetId").value;
                     var status = document.getElementById("status");
                     var resolution = status.options[status.selectedIndex].value;
+                    var DownageCategory = document.getElementById("DownageCategory").value;
+                    var CommentText = document.getElementById("CommentText").value;
                     var data = {};
                     if(NetId != "" && NetId != null){
                         data['AuthorNetID'] = NetId;
@@ -26,6 +28,14 @@
                     if (resolution < 2){
                         data['IsResolved'] = Number(resolution);
                     }
+                    if(DownageCategory != "" && DownageCategory != null){
+                        data['Category'] = DownageCategory;
+                    }
+
+                    if(CommentText != "" && CommentText != null){
+                        data['CommentText'] = CommentText;
+                    }
+
                     displayComments(data, "{{netId}}");
                 }
                 $(document).ready(displayComments({}, "{{netId}}"));             
@@ -60,6 +70,15 @@
                         <option value="1">Resolved</option>
                     </select>
                 </div>
+                <div class="filterBlock">
+                    <label for="CommentText">Comment Contains Text:</label>
+                    <input type="text" class="form-control filterInput" id="CommentText" name="CommentText">
+                </div>
+                <div class="filterBlock">
+                    <label for="DownageCategory">Category Contains Text:</label>
+                    <input type="text" class="form-control filterInput" id="DownageCategory" name="DownageCategory">
+                </div>
+                <br/>
                 <button id="createComment" type="button" style="margin: 5px;" onclick="filterComments()" class="btn btn-default" value="Submit">Filter</button>
             </div>
         </div>
