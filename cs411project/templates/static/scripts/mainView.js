@@ -1,6 +1,25 @@
-function choosePC(machineID){
-                        document.getElementById("Computer Chosen").innerHTML = "Comment on PC #"+machineID;
-                        document.getElementById("MachineId").value = machineID;
+function choosePC(netId, machineID){
+    document.getElementById("Computer Chosen").innerHTML = "Comment on PC #"+machineID;
+    document.getElementById("MachineId").value = machineID;
+    displayComments({'MachineID': machineID},netId)
+    $("#categoryChecks").html("");
+    $.ajax({
+        method: "GET",
+        url: "http://teamrocket.web.illinois.edu/project/downage-category/mixture/" + machineID,
+        contentType: "application/json",
+        dataType: "json",
+        crossDomain: true,
+        success: function (data) {
+            var list_html = "";
+            for( var i=0; i <data.length; i++) {
+                list_html += "<option value=" + data[i]["CategoryText"] + ">" + data[i]["CategoryText"] + "</option>"
+            }
+            $("#categoryChecks").html(list_html);
+        },
+        error: function(data) {
+            console.log('There was a problem');
+        }
+     });
 }
 
 function sendHeartbeat(netId, machineId) { 

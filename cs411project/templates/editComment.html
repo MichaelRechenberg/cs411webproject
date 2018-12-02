@@ -24,9 +24,10 @@
                         document.getElementById("NetId").value = result["AuthorNetID"];
                         document.getElementById("HardwareId").value = result["HardwareID"];
                         document.getElementById("comment").value = result["CommentText"];  
-			if (result["IsResolved"] == 1){
-			    document.getElementById("isResolved").checked = true;
-			}
+                        if (result["IsResolved"] == 1){
+                            document.getElementById("isResolved").checked = true;
+                        }
+                        getCategories(String(result["CommentID"]));
 			// TODO: category is checked
                     },
                     error: function(xhr, status, error) {
@@ -59,12 +60,10 @@
                             <input type="text" class="form-control" id="NetId" name="NetId">
                             <label for="HardwareId">HardwareId(Optional):</label>
                             <input type="text" class="form-control" id="HardwareId" name="HardwareId">
-                            <div id="categoryChecks">
-                                <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Machine Problem">Machine Problem</label>
-                                <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Hardware Problem">Hardware Problem</label>
-                                <label class="checkbox-inline" style="margin: 5px;"><input type="radio" name="Category" value="Software Problem">Sofware Problem</label>
-                                <p></p>
-                            </div>
+                            <label for="categoryChecks">Category:</label>
+                            <select class="form-control" id="categoryChecks">
+
+                            </select>
                             <label for="comment">Comment:</label>
                             <textarea class="form-control" rows="5" id="comment" name="Comment"></textarea>
                             <label class="checkbox-inline" style="margin: 5px;"><input type="checkbox" id="isResolved" name="resolved">Issue resolved?</label>
