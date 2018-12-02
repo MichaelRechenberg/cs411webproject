@@ -41,3 +41,25 @@ function deleteComment(){
         window.location.replace("http://teamrocket.web.illinois.edu/comment");
     });
 }
+
+function getCategories(commentID) {
+    $("#categoryChecks").html("");
+    $.ajax({
+        method: "GET",
+        url: "http://teamrocket.web.illinois.edu/project/downage-category/editing-comment/" + commentID,
+        contentType: "application/json",
+        dataType: "json",
+        crossDomain: true,
+        success: function (data) {
+            var list_html = "";
+            for( var i=0; i <data.length; i++) {
+                list_html += "<option value=" + data[i]["CategoryText"] + ">" + data[i]["CategoryText"] + "</option>"
+            }
+            $("#categoryChecks").html(list_html);
+        },
+        error: function(data) {
+            console.log('There was a problem');
+        }
+     });
+}
+

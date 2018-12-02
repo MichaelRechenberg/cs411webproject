@@ -1,6 +1,27 @@
-function choosePC(machineID){
-                        document.getElementById("Computer Chosen").innerHTML = "Comment on PC #"+machineID;
-                        document.getElementById("MachineId").value = machineID;
+function choosePC(netId, machineID){
+    document.getElementById("Computer Chosen").innerHTML = "Comment on PC #"+machineID;
+    document.getElementById("MachineId").value = machineID;
+    var filters = {};
+    filters['MachineID'] = Number(machineID);
+    displayComments(filters,netId);
+    $("#categoryChecks").html("");
+    $.ajax({
+        method: "GET",
+        url: "http://teamrocket.web.illinois.edu/project/downage-category/mixture/" + machineID,
+        contentType: "application/json",
+        dataType: "json",
+        crossDomain: true,
+        success: function (data) {
+            var list_html = "";
+            for( var i=0; i <data.length; i++) {
+                list_html += "<option value=" + data[i]["CategoryText"] + ">" + data[i]["CategoryText"] + "</option>"
+            }
+            $("#categoryChecks").html(list_html);
+        },
+        error: function(data) {
+            console.log('There was a problem');
+        }
+     });
 }
 
 function sendHeartbeat(netId, machineId) { 
@@ -31,7 +52,7 @@ function displayComments(filters, netId) {
         crossDomain: true,
         success: function (data) {
             var list_html = "<ul style='list-style-type: none;'>";
-            for( var i=0; i <5; i++) {
+            for( var i=0; i < Math.min(5, data.length); i++) {
                 list_html += "<li><div class='commentViewBox'>";
                 list_html += "<div> <p class='commentInfo commentAuthor' >" + data[i]['AuthorNetID'] + "</p>";
                 list_html += "<p class='commentInfo commentMachine' > Machine ID: " + data[i]['MachineID'] + "</p> </div>";

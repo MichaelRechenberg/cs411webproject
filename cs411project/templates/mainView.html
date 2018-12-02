@@ -71,15 +71,15 @@
           var machineDict = {};
 
           var shadowRectangle = new Konva.Rect({
-          x: 0,
-          y: 0,
-          width: blockSnapSize * 1,
-          height: blockSnapSize * 1,
-          fill: '#FF7B17',
-          opacity: 0.6,
-          stroke: '#CF6412',
-          strokeWidth: 3,
-          dash: [20, 2]
+            x: 0,
+            y: 0,
+            width: blockSnapSize * 1,
+            height: blockSnapSize * 1,
+            fill: '#FF7B17',
+            opacity: 0.6,
+            stroke: '#CF6412',
+            strokeWidth: 3,
+            dash: [20, 2]
           });
 
           function newRectangle(x, y, layer, stage, status, machineID) {
@@ -132,7 +132,7 @@
           tooltip.text(rectangle.name());
           tooltip.show();
           rectangle.on('click', function (e) {
-            choosePC(machineID.toString());
+            choosePC("{{netId}}", machineID.toString());
           });
 
           rectangle.on('dragstart', (e) => {
@@ -276,7 +276,7 @@
                             <label for="MachineId">MachineID:</label>
                             <input  id="MachineId" class="form-control" name="MachineId" value="">
                             <label for="NetId">NetId:</label>
-                            <input type="text" class="form-control" id="NetId" name="NetId">
+                            <input type="text" class="form-control" id="NetId" name="NetId" value="{{netId}}">
                             <label for="HardwareId">HardwareId(Optional):</label>
                             <input type="text" class="form-control" id="HardwareId" name="HardwareId">
                             <label for="categoryChecks">Category:</label>
