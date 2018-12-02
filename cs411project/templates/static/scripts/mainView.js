@@ -1,7 +1,9 @@
 function choosePC(netId, machineID){
     document.getElementById("Computer Chosen").innerHTML = "Comment on PC #"+machineID;
     document.getElementById("MachineId").value = machineID;
-    displayComments({'MachineID': machineID},netId)
+    var filters = {};
+    filters['MachineID'] = Number(machineID);
+    displayComments(filters,netId);
     $("#categoryChecks").html("");
     $.ajax({
         method: "GET",
@@ -50,7 +52,7 @@ function displayComments(filters, netId) {
         crossDomain: true,
         success: function (data) {
             var list_html = "<ul style='list-style-type: none;'>";
-            for( var i=0; i <5; i++) {
+            for( var i=0; i < Math.min(5, data.length); i++) {
                 list_html += "<li><div class='commentViewBox'>";
                 list_html += "<div> <p class='commentInfo commentAuthor' >" + data[i]['AuthorNetID'] + "</p>";
                 list_html += "<p class='commentInfo commentMachine' > Machine ID: " + data[i]['MachineID'] + "</p> </div>";
