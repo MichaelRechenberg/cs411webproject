@@ -16,7 +16,7 @@ Jinja2==2.10
 jmespath==0.9.3
 MarkupSafe==1.0
 mysql-connector-python==8.0.12
-numpy==1.15.2
+numpy==1.22.0
 protobuf==3.6.1
 python-dateutil==2.7.3
 requests==2.19.1
